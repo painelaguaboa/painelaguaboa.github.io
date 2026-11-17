@@ -709,6 +709,8 @@
     "porSubsetor": [
       {
         "sub": "09",
+        "rotulo": "09 – Palmeira de Resplendor / Rib. Vermelho / Cachoeiras",
+        "nomeCompleto": "Palmeira de Resplendor, Ribeirão Vermelho, Cachoeira da Fumaça e Cachoeira da Luz",
         "cadastros": 1,
         "comunidadesPlano": 4,
         "cobertosPlano": 1,
@@ -719,6 +721,8 @@
       },
       {
         "sub": "10",
+        "rotulo": "10 – Bonfim rural / Cór. Meiras / Cedro-Criolos",
+        "nomeCompleto": "Bonfim (rural), Córrego dos Meiras, Cedro/Criolos, Ribeirão dos Barbosas e Ribeirão dos Pires",
         "cadastros": 0,
         "comunidadesPlano": 5,
         "cobertosPlano": 0,
@@ -729,6 +733,8 @@
       },
       {
         "sub": "11",
+        "rotulo": "11 – Limeira / Bouquete / Mumbuca",
+        "nomeCompleto": "Limeira, Bouquete, Mumbuca, Ponte Surubim e Setor Totinho",
         "cadastros": 5,
         "comunidadesPlano": 5,
         "cobertosPlano": 2,
@@ -739,6 +745,8 @@
       },
       {
         "sub": "12",
+        "rotulo": "12 – Bugre / V. N. Esperança / Umburana",
+        "nomeCompleto": "Bugre, Vila Nova Esperança, Ribeirão dos Pegos, Umburana, Água Preta, Água Fria, Bar do Peixe e Fojo",
         "cadastros": 2,
         "comunidadesPlano": 8,
         "cobertosPlano": 1,
@@ -749,6 +757,8 @@
       },
       {
         "sub": "13",
+        "rotulo": "13 – Idalino / Inhuma / Catequese",
+        "nomeCompleto": "Idalino, Inhuma, Catequese e Santo Antônio do Surubim",
         "cadastros": 8,
         "comunidadesPlano": 4,
         "cobertosPlano": 2,
@@ -759,6 +769,8 @@
       },
       {
         "sub": "14",
+        "rotulo": "14 – Graminha / Cór. Horizonte / Latão",
+        "nomeCompleto": "Graminha, Córrego Horizonte e Latão",
         "cadastros": 8,
         "comunidadesPlano": 3,
         "cobertosPlano": 2,
