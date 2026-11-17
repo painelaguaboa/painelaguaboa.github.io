@@ -954,7 +954,9 @@
         "dataHodometro": "2026-11-12",
         "kmRestanteOleo": 1185,
         "alertaOleo": "proximo",
-        "multa": false
+        "multa": false,
+        "kmUltimaOleo": 303379,
+        "kmProximaOleo": 313379
       },
       {
         "prefixo": "25651",
@@ -967,7 +969,9 @@
         "dataHodometro": "2026-11-12",
         "kmRestanteOleo": 7945,
         "alertaOleo": "ok",
-        "multa": false
+        "multa": false,
+        "kmUltimaOleo": 156037,
+        "kmProximaOleo": 166037
       },
       {
         "prefixo": "28305",
@@ -980,7 +984,9 @@
         "dataHodometro": "2026-09-10",
         "kmRestanteOleo": 7879,
         "alertaOleo": "ok",
-        "multa": false
+        "multa": false,
+        "kmUltimaOleo": 132772,
+        "kmProximaOleo": 142772
       },
       {
         "prefixo": "29530",
@@ -993,7 +999,9 @@
         "dataHodometro": "2026-11-12",
         "kmRestanteOleo": 2387,
         "alertaOleo": "ok",
-        "multa": false
+        "multa": false,
+        "kmUltimaOleo": 35584,
+        "kmProximaOleo": 38584
       },
       {
         "prefixo": "29558",
@@ -1006,7 +1014,9 @@
         "dataHodometro": "2026-11-12",
         "kmRestanteOleo": 2297,
         "alertaOleo": "ok",
-        "multa": false
+        "multa": false,
+        "kmUltimaOleo": 33749,
+        "kmProximaOleo": 36749
       },
       {
         "prefixo": "30074",
@@ -1019,7 +1029,9 @@
         "dataHodometro": "2026-11-12",
         "kmRestanteOleo": 4033,
         "alertaOleo": "ok",
-        "multa": false
+        "multa": false,
+        "kmUltimaOleo": 132358,
+        "kmProximaOleo": 142358
       }
     ]
   }
