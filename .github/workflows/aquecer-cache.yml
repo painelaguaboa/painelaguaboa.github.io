@@ -1,0 +1,17 @@
+name: Aquecer cache do painel
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+jobs:
+  aquecer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Atualizar cache do mes corrente e do seguinte
+        run: |
+          U='https://script.google.com/macros/s/AKfycbzBssR5U-_pbV3mCg8w9UjuK_HhmtgQJ6svbqVzh_jQZ9hIKHwyha5ZDYb2RTQ4GdATBQ/exec'
+          M=$(TZ=America/Sao_Paulo date +%Y-%m)
+          N=$(TZ=America/Sao_Paulo date -d "$(date +%Y-%m-15) +1 month" +%Y-%m)
+          curl -sL -o /dev/null -w "$M %{http_code} %{time_total}s\n" --max-time 120 "$U?api=dados&mes=$M&atualizar=1" || true
+          curl -sL -o /dev/null -w "$N %{http_code} %{time_total}s\n" --max-time 120 "$U?api=dados&mes=$N&atualizar=1" || true
