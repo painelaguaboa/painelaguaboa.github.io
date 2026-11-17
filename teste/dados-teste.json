@@ -1,0 +1,931 @@
+{
+  "ref": "2026-11-17",
+  "fuso": "America/Sao_Paulo",
+  "rotulo": "Versão de teste – dados de 17/11/2026 (horário de Brasília).",
+  "conferencias": [],
+  "eventos": {
+    "ok": true,
+    "itens": [
+      {
+        "nome": "CARREATA DO PT",
+        "dataInicio": "26/10/2026",
+        "dataFim": "26/10/2026",
+        "horaInicio": "18:00",
+        "horaFim": "22:00",
+        "publico": "200",
+        "alvara": "Não",
+        "viaPublica": "Sim",
+        "trajeto": "Saída do bairro Santa Clara, passando pela Praça da Matriz, Avenida Espírito Santo, ruas Dom João Pimenta, Bom Jesus. Bairro Curumim, Treze de Maio. Tiradentes, Mestra Maria Augusta. Local do Encerramento: Centro, próximo a prefeitura.",
+        "variosDias": "Não",
+        "quantosDias": "1",
+        "observacao": "200 carros e motos. Sem seguranças contratados.",
+        "tipo": "",
+        "local": "",
+        "endereco": "",
+        "maps": "",
+        "setor": "",
+        "subsetor": "",
+        "risco": "",
+        "policiamento": "",
+        "efetivoPm": "",
+        "viatura": "",
+        "prefixoViatura": "",
+        "bebida": "",
+        "oficio": ""
+      },
+      {
+        "nome": "Campeonato Municipal 2ª divisão",
+        "dataInicio": "21/10/2026",
+        "dataFim": "18/11/2026",
+        "horaInicio": "18:30",
+        "horaFim": "00:00",
+        "publico": "30",
+        "alvara": "Sim",
+        "viaPublica": "Não",
+        "trajeto": "Não se aplica",
+        "variosDias": "Sim",
+        "quantosDias": "12",
+        "observacao": "Sem seguranças. Evento ocorre até 18/11, nas quartas, sábados e domingos.",
+        "tipo": "",
+        "local": "",
+        "endereco": "",
+        "maps": "",
+        "setor": "",
+        "subsetor": "",
+        "risco": "",
+        "policiamento": "",
+        "efetivoPm": "",
+        "viatura": "",
+        "prefixoViatura": "",
+        "bebida": "",
+        "oficio": ""
+      },
+      {
+        "nome": "Corrida união",
+        "dataInicio": "22/11/2026",
+        "dataFim": "22/11/2026",
+        "horaInicio": "05:30",
+        "horaFim": "12:00",
+        "publico": "300",
+        "alvara": "Sim",
+        "viaPublica": "Sim",
+        "trajeto": "Avenida Espírito Santo, rua Dom João Pimenta, rua Treze de Maio, rua São Vicente, rua João Alves de Almeida, igreja católica, praça do hospital, voltando ao ponto inicial.",
+        "variosDias": "Não",
+        "quantosDias": "1",
+        "observacao": "Expectativa de 300 pessoas.",
+        "tipo": "",
+        "local": "",
+        "endereco": "",
+        "maps": "",
+        "setor": "",
+        "subsetor": "",
+        "risco": "",
+        "policiamento": "",
+        "efetivoPm": "",
+        "viatura": "",
+        "prefixoViatura": "",
+        "bebida": "",
+        "oficio": ""
+      },
+      {
+        "nome": "CARREATA PT",
+        "dataInicio": "24/10/2026",
+        "dataFim": "24/10/2026",
+        "horaInicio": "17:00",
+        "horaFim": "22:00",
+        "publico": "200",
+        "alvara": "Não",
+        "viaPublica": "Sim",
+        "trajeto": "Saída bairro Santa Clara, praça da Matriz, avenida Espírito Santo, rua Dom João Pimenta, Treze de Maio, Tiradentes, Mestra Maria Augusta.",
+        "variosDias": "Não",
+        "quantosDias": "1",
+        "observacao": "200 veículos.",
+        "tipo": "",
+        "local": "",
+        "endereco": "",
+        "maps": "",
+        "setor": "",
+        "subsetor": "",
+        "risco": "",
+        "policiamento": "",
+        "efetivoPm": "",
+        "viatura": "",
+        "prefixoViatura": "",
+        "bebida": "",
+        "oficio": ""
+      },
+      {
+        "nome": "Carreata em Prol do Bolsonaro",
+        "dataInicio": "03/10/2026",
+        "dataFim": "03/10/2026",
+        "horaInicio": "17:00",
+        "horaFim": "22:00",
+        "publico": "60",
+        "alvara": "Não",
+        "viaPublica": "Sim",
+        "trajeto": "Posto do Junior / reta do Paulo Vieira / rua Padre Alexandrino / rua Treze de Maio / rua do colégio Adão Marques / praça Juca Alves.",
+        "variosDias": "Não",
+        "quantosDias": "1",
+        "observacao": "60 carros.",
+        "tipo": "",
+        "local": "",
+        "endereco": "",
+        "maps": "",
+        "setor": "",
+        "subsetor": "",
+        "risco": "",
+        "policiamento": "",
+        "efetivoPm": "",
+        "viatura": "",
+        "prefixoViatura": "",
+        "bebida": "",
+        "oficio": ""
+      },
+      {
+        "nome": "CARREATAS E COMÍCIOS",
+        "dataInicio": "03/10/2026",
+        "dataFim": "03/10/2026",
+        "horaInicio": "18:00",
+        "horaFim": "19:30",
+        "publico": "0",
+        "alvara": "Sim",
+        "viaPublica": "Sim",
+        "trajeto": "Início no Posto Tráfego, sentido Capelinha pela Rua Treze de Maio, conversão à Rua Dom João Pimenta e encerramento na Praça Central de Água Boa; em seguida, comício na praça.",
+        "variosDias": "Não",
+        "quantosDias": "1",
+        "localidade": "Água Boa sede",
+        "observacao": "Sem público previsto. Sem seguranças previstos.",
+        "tipo": "",
+        "local": "",
+        "endereco": "",
+        "maps": "",
+        "setor": "",
+        "subsetor": "",
+        "risco": "",
+        "policiamento": "",
+        "efetivoPm": "",
+        "viatura": "",
+        "prefixoViatura": "",
+        "bebida": "",
+        "oficio": ""
+      },
+      {
+        "nome": "CARREATAS E COMÍCIOS",
+        "dataInicio": "02/10/2026",
+        "dataFim": "03/10/2026",
+        "horaInicio": "18:00",
+        "horaFim": "19:30",
+        "publico": "0",
+        "alvara": "Sim",
+        "viaPublica": "Sim",
+        "trajeto": "Concentração no Bar do Nem do Orozimbo até o distrito de Palmeira de Resplendor, encerramento na Praça da Matriz; em seguida, comício na praça.",
+        "variosDias": "Sim",
+        "quantosDias": "2",
+        "localidade": "Palmeiras de Resplendor",
+        "observacao": "Palmeiras de Resplendor.",
+        "tipo": "",
+        "local": "",
+        "endereco": "",
+        "maps": "",
+        "setor": "",
+        "subsetor": "",
+        "risco": "",
+        "policiamento": "",
+        "efetivoPm": "",
+        "viatura": "",
+        "prefixoViatura": "",
+        "bebida": "",
+        "oficio": ""
+      },
+      {
+        "nome": "3ª cavalgada de Inhaúma",
+        "dataInicio": "19/09/2026",
+        "dataFim": "20/09/2026",
+        "horaInicio": "12:00",
+        "horaFim": "03:00",
+        "publico": "150",
+        "alvara": "Não",
+        "viaPublica": "Sim",
+        "trajeto": "Concentração no Nico do Quintino, parada no Urupuca e chegada em Inhaúma, no Bar do Zé Reis.",
+        "variosDias": "Não",
+        "quantosDias": "1",
+        "tipo": "",
+        "local": "",
+        "endereco": "",
+        "maps": "",
+        "setor": "",
+        "subsetor": "",
+        "risco": "",
+        "policiamento": "",
+        "efetivoPm": "",
+        "viatura": "",
+        "prefixoViatura": "",
+        "bebida": "",
+        "oficio": ""
+      },
+      {
+        "nome": "NOITE CULTURAL",
+        "dataInicio": "07/09/2026",
+        "dataFim": "07/09/2026",
+        "horaInicio": "18:00",
+        "horaFim": "00:00",
+        "publico": "100",
+        "alvara": "Sim",
+        "viaPublica": "Sim",
+        "trajeto": "Sem trajeto",
+        "segurancaQtd": "3",
+        "variosDias": "Não",
+        "quantosDias": "1",
+        "tipo": "",
+        "local": "",
+        "endereco": "",
+        "maps": "",
+        "setor": "",
+        "subsetor": "",
+        "risco": "",
+        "policiamento": "",
+        "efetivoPm": "",
+        "viatura": "",
+        "prefixoViatura": "",
+        "bebida": "",
+        "oficio": ""
+      },
+      {
+        "nome": "FESTA DE SÃO VICENTE",
+        "dataInicio": "10/09/2026",
+        "dataFim": "13/09/2026",
+        "horaInicio": "19:00",
+        "horaFim": "23:00",
+        "publico": "250",
+        "alvara": "Sim",
+        "viaPublica": "Sim",
+        "trajeto": "Não tem",
+        "variosDias": "Sim",
+        "quantosDias": "4",
+        "observacao": "250 pessoas. Não fala nada sobre segurança.",
+        "tipo": "",
+        "local": "",
+        "endereco": "",
+        "maps": "",
+        "setor": "",
+        "subsetor": "",
+        "risco": "",
+        "policiamento": "",
+        "efetivoPm": "",
+        "viatura": "",
+        "prefixoViatura": "",
+        "bebida": "",
+        "oficio": ""
+      },
+      {
+        "nome": "Trilhão de Água Boa",
+        "dataInicio": "05/09/2026",
+        "dataFim": "05/09/2026",
+        "horaInicio": "08:00",
+        "horaFim": "22:00",
+        "publico": "30",
+        "alvara": "Não",
+        "viaPublica": "Sim",
+        "trajeto": "Via urbana de Água Boa",
+        "variosDias": "Não",
+        "quantosDias": "1",
+        "tipo": "",
+        "local": "",
+        "endereco": "",
+        "maps": "",
+        "setor": "",
+        "subsetor": "",
+        "risco": "",
+        "policiamento": "",
+        "efetivoPm": "",
+        "viatura": "",
+        "prefixoViatura": "",
+        "bebida": "",
+        "oficio": ""
+      },
+      {
+        "nome": "Cavalgada associação APRUA",
+        "dataInicio": "06/09/2026",
+        "dataFim": "07/09/2026",
+        "horaInicio": "10:00",
+        "horaFim": "00:00",
+        "publico": "80",
+        "alvara": "Sim",
+        "viaPublica": "Não",
+        "trajeto": "Zona rural de Água Boa",
+        "variosDias": "Não",
+        "quantosDias": "1",
+        "tipo": "",
+        "local": "",
+        "endereco": "",
+        "maps": "",
+        "setor": "",
+        "subsetor": "",
+        "risco": "",
+        "policiamento": "",
+        "efetivoPm": "",
+        "viatura": "",
+        "prefixoViatura": "",
+        "bebida": "",
+        "oficio": ""
+      },
+      {
+        "nome": "Campeonato regional de veteranos",
+        "dataInicio": "30/08/2026",
+        "dataFim": "30/08/2026",
+        "horaInicio": "14:00",
+        "horaFim": "16:00",
+        "publico": "100",
+        "alvara": "Sim",
+        "viaPublica": "Não",
+        "trajeto": "Nenhum trajeto",
+        "segurancaQtd": "4",
+        "variosDias": "Não",
+        "quantosDias": "1",
+        "tipo": "",
+        "local": "",
+        "endereco": "",
+        "maps": "",
+        "setor": "",
+        "subsetor": "",
+        "risco": "",
+        "policiamento": "",
+        "efetivoPm": "",
+        "viatura": "",
+        "prefixoViatura": "",
+        "bebida": "",
+        "oficio": ""
+      },
+      {
+        "nome": "CATEQUESE AUSENTE",
+        "dataInicio": "21/08/2026",
+        "dataFim": "23/08/2026",
+        "horaInicio": "19:00",
+        "horaFim": "03:00",
+        "publico": "500",
+        "alvara": "Sim",
+        "viaPublica": "Não",
+        "trajeto": "Não",
+        "segurancaQtd": "4",
+        "variosDias": "Sim",
+        "quantosDias": "3",
+        "localidade": "Catequese",
+        "observacao": "Dias 21, 22 e 23 de agosto de 2026.",
+        "tipo": "",
+        "local": "",
+        "endereco": "",
+        "maps": "",
+        "setor": "",
+        "subsetor": "",
+        "risco": "",
+        "policiamento": "",
+        "efetivoPm": "",
+        "viatura": "",
+        "prefixoViatura": "",
+        "bebida": "",
+        "oficio": ""
+      },
+      {
+        "nome": "3º FEIRA AGROPECUÁRIA",
+        "dataInicio": "14/08/2026",
+        "dataFim": "14/08/2026",
+        "horaInicio": "08:00",
+        "horaFim": "20:00",
+        "publico": "2500",
+        "alvara": "Sim",
+        "viaPublica": "Não",
+        "trajeto": "Não",
+        "variosDias": "Não",
+        "quantosDias": "1",
+        "tipo": "",
+        "local": "",
+        "endereco": "",
+        "maps": "",
+        "setor": "",
+        "subsetor": "",
+        "risco": "",
+        "policiamento": "",
+        "efetivoPm": "",
+        "viatura": "",
+        "prefixoViatura": "",
+        "bebida": "",
+        "oficio": ""
+      },
+      {
+        "nome": "ESQUENTA RESPLENDOR",
+        "dataInicio": "14/08/2026",
+        "dataFim": "15/08/2026",
+        "horaInicio": "19:00",
+        "horaFim": "00:00",
+        "publico": "300",
+        "alvara": "Sim",
+        "viaPublica": "Sim",
+        "trajeto": "Acostamento da rodovia BR-120",
+        "variosDias": "Não",
+        "quantosDias": "1",
+        "localidade": "Palmeiras de Resplendor",
+        "tipo": "",
+        "local": "",
+        "endereco": "",
+        "maps": "",
+        "setor": "",
+        "subsetor": "",
+        "risco": "",
+        "policiamento": "",
+        "efetivoPm": "",
+        "viatura": "",
+        "prefixoViatura": "",
+        "bebida": "",
+        "oficio": ""
+      },
+      {
+        "nome": "Catequesense Ausente",
+        "dataInicio": "21/08/2026",
+        "dataFim": "23/08/2026",
+        "horaInicio": "19:00",
+        "horaFim": "03:00",
+        "publico": "500",
+        "alvara": "Sim",
+        "viaPublica": "Sim",
+        "trajeto": "Rua principal de Catequese",
+        "segurancaQtd": "4",
+        "variosDias": "Sim",
+        "quantosDias": "3",
+        "localidade": "Catequese",
+        "observacao": "Dias 21, 22 e 23 de agosto de 2026.",
+        "tipo": "",
+        "local": "",
+        "endereco": "",
+        "maps": "",
+        "setor": "",
+        "subsetor": "",
+        "risco": "",
+        "policiamento": "",
+        "efetivoPm": "",
+        "viatura": "",
+        "prefixoViatura": "",
+        "bebida": "",
+        "oficio": ""
+      }
+    ]
+  },
+  "prural": {
+    "ok": true,
+    "total": 27,
+    "visitas": 3,
+    "visitasPendentes": 24,
+    "placasSim": 27,
+    "comArea": 13,
+    "comAtividade": 17,
+    "horarios": {
+      "Manhã": 8,
+      "Tarde": 18,
+      "Noite": 1
+    },
+    "quando": {
+      "Semana": 14,
+      "Fim de Semana": 13
+    },
+    "primeiro": "2026-08-05",
+    "ultimo": "2026-09-28",
+    "diasSemNovo": 50,
+    "metaPlano": 29,
+    "cobertosPlano": 8,
+    "cobertosNomes": [
+      "Cachoeira da Luz",
+      "Limeira",
+      "Bouquete",
+      "Água Fria",
+      "Catequese",
+      "Santo Antônio do Surubim",
+      "Graminha",
+      "Latão"
+    ],
+    "metaMes": 20,
+    "metaProvisoria": true,
+    "noMes": 0,
+    "porMes": [
+      {
+        "mes": "2026-08",
+        "n": 15
+      },
+      {
+        "mes": "2026-09",
+        "n": 12
+      },
+      {
+        "mes": "2026-10",
+        "n": 0
+      },
+      {
+        "mes": "2026-11",
+        "n": 0
+      }
+    ],
+    "porSemana": [
+      {
+        "chave": "2026-W32",
+        "inicio": "2026-08-03",
+        "fim": "2026-08-09",
+        "n": 9
+      },
+      {
+        "chave": "2026-W33",
+        "inicio": "2026-08-10",
+        "fim": "2026-08-16",
+        "n": 1
+      },
+      {
+        "chave": "2026-W34",
+        "inicio": "2026-08-17",
+        "fim": "2026-08-23",
+        "n": 4
+      },
+      {
+        "chave": "2026-W35",
+        "inicio": "2026-08-24",
+        "fim": "2026-08-30",
+        "n": 1
+      },
+      {
+        "chave": "2026-W36",
+        "inicio": "2026-08-31",
+        "fim": "2026-09-06",
+        "n": 0
+      },
+      {
+        "chave": "2026-W37",
+        "inicio": "2026-09-07",
+        "fim": "2026-09-13",
+        "n": 0
+      },
+      {
+        "chave": "2026-W38",
+        "inicio": "2026-09-14",
+        "fim": "2026-09-20",
+        "n": 1
+      },
+      {
+        "chave": "2026-W39",
+        "inicio": "2026-09-21",
+        "fim": "2026-09-27",
+        "n": 9
+      },
+      {
+        "chave": "2026-W40",
+        "inicio": "2026-09-28",
+        "fim": "2026-10-04",
+        "n": 2
+      },
+      {
+        "chave": "2026-W41",
+        "inicio": "2026-10-05",
+        "fim": "2026-10-11",
+        "n": 0
+      },
+      {
+        "chave": "2026-W42",
+        "inicio": "2026-10-12",
+        "fim": "2026-10-18",
+        "n": 0
+      },
+      {
+        "chave": "2026-W43",
+        "inicio": "2026-10-19",
+        "fim": "2026-10-25",
+        "n": 0
+      },
+      {
+        "chave": "2026-W44",
+        "inicio": "2026-10-26",
+        "fim": "2026-11-01",
+        "n": 0
+      },
+      {
+        "chave": "2026-W45",
+        "inicio": "2026-11-02",
+        "fim": "2026-11-08",
+        "n": 0
+      },
+      {
+        "chave": "2026-W46",
+        "inicio": "2026-11-09",
+        "fim": "2026-11-15",
+        "n": 0
+      },
+      {
+        "chave": "2026-W47",
+        "inicio": "2026-11-16",
+        "fim": "2026-11-22",
+        "n": 0
+      }
+    ],
+    "comunidades": [
+      {
+        "nome": "Cachoeira da Luz",
+        "sub": "09",
+        "confianca": "alta",
+        "n": 1
+      },
+      {
+        "nome": "Bouquete",
+        "sub": "11",
+        "confianca": "alta",
+        "n": 4
+      },
+      {
+        "nome": "Limeira",
+        "sub": "11",
+        "confianca": "alta",
+        "n": 1
+      },
+      {
+        "nome": "Surubim",
+        "sub": "12",
+        "confianca": "media",
+        "n": 1
+      },
+      {
+        "nome": "Água Fria",
+        "sub": "12",
+        "confianca": "alta",
+        "n": 1
+      },
+      {
+        "nome": "Catequese",
+        "sub": "13",
+        "confianca": "alta",
+        "n": 5
+      },
+      {
+        "nome": "Santo Antônio do Surubim",
+        "sub": "13",
+        "confianca": "alta",
+        "n": 3
+      },
+      {
+        "nome": "Bom Jesus do Horizonte",
+        "sub": "14",
+        "confianca": "media",
+        "n": 1
+      },
+      {
+        "nome": "Córrego Seco",
+        "sub": "14",
+        "confianca": "alta",
+        "n": 2
+      },
+      {
+        "nome": "Graminha",
+        "sub": "14",
+        "confianca": "alta",
+        "n": 2
+      },
+      {
+        "nome": "Latão",
+        "sub": "14",
+        "confianca": "alta",
+        "n": 3
+      },
+      {
+        "nome": "A conferir (ABRACE)",
+        "sub": "",
+        "confianca": "sem",
+        "n": 1
+      },
+      {
+        "nome": "A conferir (Urupuca / Cifal)",
+        "sub": "",
+        "confianca": "baixa",
+        "n": 1
+      },
+      {
+        "nome": "Fazenda Três Cruzes",
+        "sub": "",
+        "confianca": "baixa",
+        "n": 1
+      }
+    ],
+    "porSubsetor": [
+      {
+        "sub": "09",
+        "cadastros": 1,
+        "comunidadesPlano": 4,
+        "cobertosPlano": 1,
+        "comunidadesBase": 16,
+        "dom": 1295,
+        "est": 268,
+        "car": 230
+      },
+      {
+        "sub": "10",
+        "cadastros": 0,
+        "comunidadesPlano": 5,
+        "cobertosPlano": 0,
+        "comunidadesBase": 56,
+        "dom": 773,
+        "est": 448,
+        "car": 593
+      },
+      {
+        "sub": "11",
+        "cadastros": 5,
+        "comunidadesPlano": 5,
+        "cobertosPlano": 2,
+        "comunidadesBase": 14,
+        "dom": 267,
+        "est": 186,
+        "car": 215
+      },
+      {
+        "sub": "12",
+        "cadastros": 2,
+        "comunidadesPlano": 8,
+        "cobertosPlano": 1,
+        "comunidadesBase": 78,
+        "dom": 1196,
+        "est": 494,
+        "car": 460
+      },
+      {
+        "sub": "13",
+        "cadastros": 8,
+        "comunidadesPlano": 4,
+        "cobertosPlano": 2,
+        "comunidadesBase": 46,
+        "dom": 388,
+        "est": 101,
+        "car": 200
+      },
+      {
+        "sub": "14",
+        "cadastros": 8,
+        "comunidadesPlano": 3,
+        "cobertosPlano": 2,
+        "comunidadesBase": 33,
+        "dom": 275,
+        "est": 75,
+        "car": 74
+      }
+    ],
+    "lacunasPlano": [
+      {
+        "nome": "Palmeiras de Resplendor",
+        "sub": "09",
+        "dom": 934,
+        "est": 11,
+        "nota": "Zona urbana do distrito — meta provisória, a confirmar."
+      },
+      {
+        "nome": "Ribeirão Vermelho",
+        "sub": "09",
+        "dom": 107,
+        "est": 80
+      },
+      {
+        "nome": "Cachoeira da Fumaça",
+        "sub": "09",
+        "dom": 22,
+        "est": 17
+      },
+      {
+        "nome": "Córrego do Pires",
+        "sub": "10",
+        "dom": 73,
+        "est": 42
+      },
+      {
+        "nome": "Ribeirão dos Meiras",
+        "sub": "10",
+        "dom": 43,
+        "est": 35
+      },
+      {
+        "nome": "Bonfim rural",
+        "sub": "10",
+        "dom": 54,
+        "est": 7
+      },
+      {
+        "nome": "Ribeirão dos Barbosas",
+        "sub": "10",
+        "dom": 25,
+        "est": 13
+      },
+      {
+        "nome": "Cedro/Criolos",
+        "sub": "10",
+        "dom": 23,
+        "est": 6
+      },
+      {
+        "nome": "Mumbuca",
+        "sub": "11",
+        "dom": 46,
+        "est": 36
+      },
+      {
+        "nome": "Ponte do Surubim",
+        "sub": "11",
+        "nota": "Sem localidade própria na base."
+      },
+      {
+        "nome": "Setor Totinho",
+        "sub": "11",
+        "nota": "Sem localidade própria na base; a confirmar em campo."
+      },
+      {
+        "nome": "Bugre",
+        "sub": "12"
+      },
+      {
+        "nome": "Vila Nova Esperança",
+        "sub": "12",
+        "dom": 54,
+        "est": 7
+      },
+      {
+        "nome": "Ribeirão dos Pegos",
+        "sub": "12",
+        "dom": 106,
+        "est": 36
+      },
+      {
+        "nome": "Umburana",
+        "sub": "12",
+        "dom": 56,
+        "est": 27
+      },
+      {
+        "nome": "Água Preta",
+        "sub": "12",
+        "dom": 68,
+        "est": 22
+      },
+      {
+        "nome": "Bar do Peixe",
+        "sub": "12",
+        "nota": "Sem localidade própria na base."
+      },
+      {
+        "nome": "Fojo",
+        "sub": "12",
+        "dom": 29,
+        "est": 11
+      },
+      {
+        "nome": "Idalino",
+        "sub": "13",
+        "dom": 11,
+        "est": 7
+      },
+      {
+        "nome": "Inhuma",
+        "sub": "13",
+        "dom": 24,
+        "est": 4
+      }
+    ],
+    "aConferirPlano": [
+      {
+        "nome": "Córrego Horizonte",
+        "sub": "14",
+        "nota": "Há um cadastro como “Povoado Novo Horizonte”, ainda a conferir."
+      }
+    ],
+    "outrasLacunas": [
+      {
+        "nome": "Mamoeiro",
+        "sub": "09",
+        "dom": 48,
+        "est": 38
+      },
+      {
+        "nome": "Santo Antônio do Lajedo",
+        "sub": "10",
+        "dom": 50,
+        "est": 32
+      },
+      {
+        "nome": "Córrego dos Bentos",
+        "sub": "10",
+        "dom": 39,
+        "est": 32
+      },
+      {
+        "nome": "Quati",
+        "sub": "09",
+        "dom": 42,
+        "est": 29
+      },
+      {
+        "nome": "Barreirão",
+        "sub": "12",
+        "dom": 49,
+        "est": 20
+      }
+    ],
+    "denominadoresEm": "2026-11-17",
+    "notaMeta": "Meta provisória: 1 cadastro em cada uma das 29 comunidades do plano rural, mais ritmo de 20 cadastros novos por mês. Ainda pendente de confirmação."
+  }
+}
