@@ -197,7 +197,6 @@ body.sem-reds [data-draw='metas'] .mi{display:none}
 .pa .rodape-div[hidden]{display:none}
 
 /* v4.3.7 — Informações de Militares */
-.pa #info-militares{margin-top:16px}
 .pa table.im-tabela td.im-pub{overflow-wrap:anywhere;font-size:.92em}
 .pa table.im-tabela .im-val-alerta,.pa table.im-tabela .im-aviso{color:var(--pmmg-vermelho,#AB2328);font-weight:700}
 .pa table.im-tabela tr.im-alerta{box-shadow:inset 4px 0 0 var(--pmmg-vermelho,#AB2328)}

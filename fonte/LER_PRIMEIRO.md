@@ -1,4 +1,4 @@
-# Fonte editável do Painel Destacamento Água Boa (v4.3.7 oficial)
+# Fonte editável do Painel Destacamento Água Boa (v4.3.8 oficial)
 
 Pasta no Drive: **Fonte**, dentro de “Painel Destacamento Água Boa – Projeto”.
 Cópia local de trabalho: `/workspace/painel/v434-teste/`.
@@ -15,7 +15,8 @@ Cópia local de trabalho: `/workspace/painel/v434-teste/`.
 - `Code_v435.gs` — servidor anterior (v4.3.5), só histórico.
 - `Code_v436.gs` e `IMPLANTACAO_V436.md` — servidor em produção (v4.3.6), implantado em 19/11/2026 como versão 12 da mesma URL `/exec`. O gatilho `instalarGatilho` **não** foi instalado (o Google recusou o escopo `script.scriptapp` por haver várias contas logadas). O aquecimento do cache continua a cargo do GitHub Action a cada 5 min; não alterar `.github/workflows/aquecer-cache.yml` enquanto o gatilho não for instalado.
 - `Code_v437.gs` e `IMPLANTACAO_V437.md` — servidor v4.3.7 (card Informações de Militares). `_v` 4.37, cache `pa_v437_`. Lê CREDENCIAMENTO DE VIATURA sem a coluna CNH e junta com o mapa carga. O gatilho `instalarGatilho` continua pendente; não alterar o aquecimento do GitHub.
-- `parts/addon_v437.js` — card na tela inicial (uma linha por militar; no celular, ficha).
+- `parts/addon_v437.js` — tela Informações de Militares (v4.3.8: card de navegação na home com resumo; tabela completa numa aba própria, com fichas no celular).
+- HTML v4.3.8 (19/11/2026, horário de Brasília) — o card Informações de Militares da home passou a ser clicável, como os outros, e abre a tela própria com a tabela. Em “Previsto e não registrado” (panorama do dia e divergências) aparece só a atividade (nome, código, turno e horário previsto), sem o nome dos militares. A chave de cache do HTML é `pa_v438_` (teste: `pa_v438t_`). O Code.gs permanece o v4.3.7 (`_v` 4.37, cache `pa_v437_`); não republicar o servidor nesta versão. O botão “Ver detalhes” continua desligado.
 - `aquecer-cache.yml.depois-da-implantacao` — só aplicar no GitHub depois que o Matheus implantar o Code.gs v4.3.6.
 
 ## Como gerar o index.html
@@ -38,7 +39,7 @@ Versão oficial (sem faixa de teste, sem dados estáticos de operações diária
 OFICIAL=1 python3 montar.py
 ```
 
-Saída: `oficial/src.html` e `oficial/index.html`. A oficial em produção é a v4.3.7 (https://painelaguaboa.github.io/). A pasta `teste-v436` no GitHub permanece como cópia histórica; a versão de teste desta linha é gerada nesta pasta.
+Saída: `oficial/src.html` e `oficial/index.html`. A oficial em produção é a v4.3.8 (https://painelaguaboa.github.io/). As pastas `teste-v436` e `teste-v437` no GitHub permanecem como cópia histórica; a versão de teste desta linha é `teste-v438`.
 
 Não edite o `index.html` minificado. Altere `base/src.html`, `parts/`, `patch_regras.py` ou o `montar.py` e rode de novo.
 
