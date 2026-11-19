@@ -180,6 +180,7 @@ rep("if(igual){ultimo=raw;PA.raw=raw;", "if(igual){ultimo=raw;PA.raw=window.PA_N
 addon = open(os.path.join(D, 'parts', 'addon.js'), encoding='utf-8').read()
 if os.environ.get('OFICIAL') != '1':
     addon += '\n' + open(os.path.join(D, 'parts', 'addon_v436.js'), encoding='utf-8').read()
+    addon += '\n' + open(os.path.join(D, 'parts', 'addon_v436_fix.js'), encoding='utf-8').read()
 rep("<script>\n/* Inicialização (v4.3.1", "<script>\n" + addon + "\n</script>\n<script>\n/* Inicialização (v4.3.1")
 # cache local separado do oficial
 rep("const CK='pa_v434_dados_'", "const CK='pa_v435t_dados_'")

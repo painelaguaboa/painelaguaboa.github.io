@@ -163,3 +163,22 @@ body.pg-extrato .gtitulo[data-g='carga']::after{content:'Extrato de horas';font-
   .kpis{gap:8px}
   .bloco-hoje{margin:8px 0;padding:10px}
 }
+
+/* v4.3.6-teste 2ª rodada */
+.aviso-reds-ate.atrasado,.aviso-faixa.atrasado{border-color:var(--pmmg-vermelho,#AB2328);color:var(--pmmg-vermelho,#AB2328);font-weight:700}
+.destaque-div-inicio,.faixa-div{margin:8px 12px}
+#destaque-div-inicio a,#faixa-div a{color:inherit;font-weight:700;text-decoration:underline}
+.pag-tabela{display:flex;align-items:center;gap:8px;margin:8px 0 12px;flex-wrap:wrap}
+@media (max-width:640px){
+  table.tabela-mobile td.col-extra, table.tabela-mobile th.col-extra{display:none}
+  table.tabela-mobile .det-col-mob{width:auto}
+  table.tabela-mobile tr.extra-det td{display:block;padding:8px 12px}
+}
+body.sem-reds [data-draw='metas'] .mi{display:none}
+
+@media (max-width:640px){
+  .pa table.cards tr[hidden],
+  .pa table.tabela-mobile tr[hidden],
+  .pa table.cards tr.pag-oculta,
+  .pa table.tabela-mobile tr.pag-oculta{display:none !important}
+}

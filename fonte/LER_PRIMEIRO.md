@@ -6,7 +6,7 @@ Cópia local de trabalho: `/workspace/painel/v434-teste/`.
 ## O que tem aqui
 
 - `base/src.html` — fonte da v4.3.4, ponto de partida do `montar.py`.
-- `parts/` — `config_head.js`, `addon.css`, `addon.js` (v4.3.5) e `addon_v436.js` (só na versão de teste v4.3.6; o `montar.py` não injeta esse arquivo quando `OFICIAL=1`).
+- `parts/` — `config_head.js`, `addon.css`, `addon.js` (v4.3.5), `addon_v436.js` e `addon_v436_fix.js` (só na versão de teste v4.3.6; o `montar.py` não injeta esses arquivos quando `OFICIAL=1`).
 - `patch_regras.py` — regras de carga horária, CPR, horários.
 - `montar.py` — aplica os patches, injeta CSS/JS/geo e gera `src.html`.
 - `build.py` — embute fontes e escudo e minifica, gerando `index.html`.
