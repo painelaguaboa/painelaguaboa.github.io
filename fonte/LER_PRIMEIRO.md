@@ -26,6 +26,16 @@ Cópia local de trabalho: `/workspace/painel/v434-teste/`.
 - HTML v4.3.8 (19/11/2026, horário de Brasília) — o card Informações de Militares da home passou a ser clicável, como os outros, e abre a tela própria com a tabela. Em “Previsto e não registrado” (panorama do dia e divergências) aparece só a atividade (nome, código, turno e horário previsto), sem o nome dos militares. A chave de cache do HTML é `pa_v438_` (teste: `pa_v438t_`). O Code.gs permanece o v4.3.7 (`_v` 4.37, cache `pa_v437_`); não republicar o servidor nesta versão. O botão “Ver detalhes” continua desligado.
 - `aquecer-cache.yml.depois-da-implantacao` — só aplicar no GitHub depois que o Matheus implantar o Code.gs v4.3.6.
 
+
+## Procedimento R1 (extração diária do REDS)
+
+Aprendizado de 19/11/2026 (horário de Brasília), no lançamento do 2026-053852330-001 (L30055, extração mineral sem autorização, fato em 18/11/2026 às 20:39, zona rural de Água Boa, registrado pelo 5 GP/4 PEL/160 CIA PM/6 BPM São José da Safira):
+
+- A busca avançada do REDS **não aceita só o município**; exige bairro ou logradouro.
+- A busca pelos 9 bairros de Água Boa **não pega registros rurais** (fazendas, córregos, povoados e demais locais fora desses bairros).
+- Portanto, além da busca pela unidade responsável M0876, é preciso tentar também a busca por **unidade de área ou destino** (exemplo: 7ª Delegacia de Polícia Civil/Água Boa), para pegar REDS de outras unidades com fato no município.
+- REDS com município do fato em Água Boa entra nos totais da área, mesmo quando a unidade responsável é outra. Não entra na produtividade dos militares do Destacamento de Água Boa.
+
 ## Como gerar o index.html
 
 Requisitos: Python 3 e Node.js (o `build.py` chama `node` para minificar).
