@@ -214,6 +214,8 @@ quandoPronto(()=>{
 
 /* 30 — Resumo por militar com 5 colunas + detalhes */
 function compactarResumo(){
+  /* Pedido do Matheus (19/11/2026): retirar o “Ver detalhes” em todas as telas. */
+  return;
   const table=document.querySelector("#t-resumo, [data-draw='t-resumo']")?.closest('table')||document.querySelector("table:has([data-draw='t-resumo'])");
   const tb=document.querySelector("[data-draw='t-resumo']");
   if(!tb||!tb.rows.length)return;

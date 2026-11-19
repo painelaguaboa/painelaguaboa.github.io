@@ -486,6 +486,9 @@ function compactarTabelasMobile(){
   });
 }
 function compactarUma(table,estreito){
+  /* Pedido do Matheus (19/11/2026): retirar o “Ver detalhes” em todas as telas.
+     As tabelas voltam a mostrar todos os campos (ex.: Horário) como antes da v4.3.6. */
+  return;
   const tb=table.tBodies[0]; if(!tb||!tb.rows.length)return;
   const heads=[...table.querySelectorAll('thead th')].map(th=>th.textContent.trim());
   const draw=(tb.querySelector('[data-draw]')||table.querySelector('[data-draw]')||{}).getAttribute?.('data-draw')||'';
