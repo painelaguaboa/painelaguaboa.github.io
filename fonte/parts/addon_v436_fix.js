@@ -71,6 +71,7 @@ function ajustarConfInt(s){
 
 /* ---- 4. Um card Logística = tela Logística ---- */
 function unificarLogistica(){
+  if(document.querySelector('#inicio.home-padrao'))return;
   const cards=[...document.querySelectorAll('#inicio .mcard, #menu .mcard')];
   const peloTitulo=t=>cards.filter(b=>{
     const x=(b.querySelector('.mt1')&&b.querySelector('.mt1').textContent||'').trim();

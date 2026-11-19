@@ -237,3 +237,35 @@ body.sem-reds [data-draw='metas'] .mi{display:none}
   .pa button.cr-bo-item{grid-template-columns:1fr}
   .pa .cr-bo-m{justify-self:start}
 }
+
+/* v4.4.0-teste — home padronizada */
+.pa #inicio.home-padrao .home-sec{margin:0 0 18px}
+.pa #inicio.home-padrao .home-sec>h2{margin:0 0 8px;font-family:var(--font-sans);font-size:.82rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-fg-muted,#5c5c5c)}
+.pa #inicio.home-padrao .home-menu{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:stretch}
+.pa #inicio.home-padrao .mcard{display:flex;flex-direction:column;align-items:flex-start;gap:6px;height:100%;min-height:148px;padding:14px 14px 12px;margin:0;background:var(--color-panel,#fff);border:1px solid var(--color-border-line,#d5d0c8);border-left:6px solid var(--pmmg-caqui,#C5A572);border-radius:0;box-shadow:none;text-align:left;color:inherit;font:inherit;cursor:pointer}
+.pa #inicio.home-padrao .mcard:hover,.pa #inicio.home-padrao .mcard:focus-visible{border-color:var(--pmmg-caqui,#C5A572);box-shadow:var(--sombra,0 2px 8px rgba(0,0,0,.08));outline:none}
+.pa #inicio.home-padrao .mcard .mh{display:flex;flex-direction:row;align-items:center;gap:8px;width:100%}
+.pa #inicio.home-padrao .mcard .ico{width:24px;height:24px;flex:0 0 24px;color:var(--pmmg-caqui,#C5A572)}
+.pa #inicio.home-padrao .mcard .mt1{font-family:var(--font-sans);font-size:.95rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pa #inicio.home-padrao .mcard .mv{margin-top:auto;padding-top:4px;font-size:0;line-height:1;color:inherit}
+.pa #inicio.home-padrao .mcard .mv b{display:block;font-family:var(--font-sans);font-size:1.55rem;font-weight:700;color:var(--color-fg,#222);margin:0;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pa #inicio.home-padrao .mcard .md{display:block!important;margin:0;padding:0;font-size:.78rem;line-height:1.3;color:var(--color-fg-muted,#5c5c5c);display:-webkit-box!important;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.pa #inicio.home-padrao #bloco-hoje{margin:0 0 18px}
+@media (max-width:1023px){
+  .pa #inicio.home-padrao .home-menu{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .pa #inicio.home-padrao .mcard{min-height:136px;padding:12px}
+  .pa #inicio.home-padrao .mcard .mv b{font-size:1.4rem}
+}
+
+/* v4.4.0 — cabeçalho das telas internas: título sem quebra no meio da palavra; no celular, duas linhas */
+.pa .gtopo .gtitulo{overflow-wrap:break-word;word-break:normal;hyphens:manual;min-width:0}
+.pa .gtopo #limpar-todos{flex:0 0 auto;white-space:nowrap;max-width:100%}
+.pa .gtopo #limpar-todos .limpar-rotulo-curto{display:none}
+@media (max-width:640px){
+  .pa .gtopo{display:flex;flex-wrap:wrap;align-items:center;gap:8px;row-gap:6px}
+  .pa .gtopo .voltar,.pa .gtopo .voltar.ant{flex:0 0 auto;padding:6px 10px;min-height:40px}
+  .pa .gtopo .gtitulo{flex:1 1 8rem;min-width:0;font-size:clamp(.82rem,3.6vw,.98rem);letter-spacing:.02em;line-height:1.25;overflow-wrap:break-word;word-break:normal;hyphens:manual}
+  .pa .gtopo #limpar-todos{flex:1 0 100%;justify-content:flex-start;min-height:36px;padding:4px 10px;font-size:.85rem;white-space:nowrap;width:auto;max-width:100%}
+  .pa .gtopo #limpar-todos .limpar-rotulo-full{display:none}
+  .pa .gtopo #limpar-todos .limpar-rotulo-curto{display:inline}
+}
