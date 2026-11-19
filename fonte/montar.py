@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Monta a versão de teste v4.3.5 a partir do fonte oficial v4.3.4 (não altera o oficial)."""
+"""Monta a versão de teste ou a oficial v4.3.6 a partir do fonte v4.3.4 + parts."""
 import json, re, os, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import patch_regras
@@ -178,9 +178,9 @@ rep("if(igual){ultimo=raw;PA.raw=raw;", "if(igual){ultimo=raw;PA.raw=window.PA_N
 
 # ---------- addon JS antes da inicialização ----------
 addon = open(os.path.join(D, 'parts', 'addon.js'), encoding='utf-8').read()
-if os.environ.get('OFICIAL') != '1':
-    addon += '\n' + open(os.path.join(D, 'parts', 'addon_v436.js'), encoding='utf-8').read()
-    addon += '\n' + open(os.path.join(D, 'parts', 'addon_v436_fix.js'), encoding='utf-8').read()
+# v4.3.6 entra no teste e no oficial; o bloco OFICIAL remove faixa e dados estáticos
+addon += '\n' + open(os.path.join(D, 'parts', 'addon_v436.js'), encoding='utf-8').read()
+addon += '\n' + open(os.path.join(D, 'parts', 'addon_v436_fix.js'), encoding='utf-8').read()
 rep("<script>\n/* Inicialização (v4.3.1", "<script>\n" + addon + "\n</script>\n<script>\n/* Inicialização (v4.3.1")
 # cache local separado do oficial
 rep("const CK='pa_v434_dados_'", "const CK='pa_v435t_dados_'")
@@ -188,15 +188,15 @@ s = s.replace("/^pa_v434_dados_/", "/^pa_v435t_dados_/")
 
 OUT = D
 if os.environ.get('OFICIAL') == '1':
-    # ---------- build OFICIAL v4.3.5 (sem marcas de teste, sem dados estáticos) ----------
+    # ---------- build OFICIAL v4.3.6 (sem marcas de teste, sem dados estáticos) ----------
     import re as _r
     OUT = os.path.join(D, 'oficial'); os.makedirs(OUT, exist_ok=True)
     s = s.replace("<title>Painel Água Boa — versão de teste v4.3.6 (19/11/2026)</title>", "<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>")
-    s = s.replace("Painel v4.3.6-teste", "Painel v4.3.5")
+    s = s.replace("Painel v4.3.6-teste", "Painel v4.3.6")
     s, k1 = _r.subn(r"<div class='banner-teste' role='status'>.*?</div>\n", "", s, count=1, flags=_r.S)
     s, k2 = _r.subn(r"\nwindow\.PA_OPD_TESTE=.*?;\n</script>", "\n</script>", s, count=1, flags=_r.S)
-    s = s.replace("pa_v435t_dados_", "pa_v435_dados_")
-    s = s.replace("CONFIGURAÇÃO ÚNICA DA VERSÃO DE TESTE v4.3.5", "CONFIGURAÇÃO ÚNICA v4.3.5")
+    s = s.replace("pa_v435t_dados_", "pa_v436_dados_")
+    s = s.replace("CONFIGURAÇÃO ÚNICA DA VERSÃO DE TESTE v4.3.5", "CONFIGURAÇÃO ÚNICA v4.3.6")
     assert k1 == 1 and k2 == 1, (k1, k2)
 open(os.path.join(OUT, 'src.html'), 'w', encoding='utf-8').write(s)
 print('src ok', len(s))
