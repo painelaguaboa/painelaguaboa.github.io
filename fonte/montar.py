@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Monta a versão de teste ou a oficial v4.3.7 a partir do fonte v4.3.4 + parts."""
+"""Monta a versão de teste ou a oficial v4.3.8 a partir do fonte v4.3.4 + parts."""
 import json, re, os, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import patch_regras
@@ -24,8 +24,8 @@ def between(a, b):
     i = s.index(a); j = s.index(b, i) + len(b); return i, j
 
 # ---------- cabeçalho, versão, config única do Y15099, dados de teste ----------
-rep("<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>", "<title>Painel Água Boa — versão de teste v4.3.7 (19/11/2026)</title>")
-rep("<span style='margin:0 8px'>Painel v4.3.4</span>", "<span style='margin:0 8px'>Painel v4.3.7-teste</span>")
+rep("<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>", "<title>Painel Água Boa — versão de teste v4.3.8 (19/11/2026)</title>")
+rep("<span style='margin:0 8px'>Painel v4.3.4</span>", "<span style='margin:0 8px'>Painel v4.3.8-teste</span>")
 # v4.3.5-teste (18/11): pedido do Matheus – remover os cards de visitas tranquilizadoras da Carga horária e do Cartão programa
 import re as _re
 for _id in ('vis-escala','vis-cartao'):
@@ -55,7 +55,7 @@ sec = ''.join(mc(x) for x in ['produtividade', 'crimes', 'intendencia', 'eventos
 sec = sec.replace("<button class='mcard alerta' data-abrir='divergencias'>", "<button class='mcard' data-abrir='divergencias'>").replace("Divergências a regularizar na escala, nos turnos, nas viaturas e no abastecimento.", "Itens para conferir por área: carga horária, escala, abastecimento, viaturas e operações.").replace("<b data-draw='m-div'>—</b> pendências a regularizar", "<b data-draw='m-div'>—</b> itens para conferir")
 I = lambda ico: "<span class='mh'><svg class='ico' aria-hidden='true'><use href='#%s'/></svg>" % ico
 novo_inicio = ("<div id='inicio'>\n"
-"<div class='banner-teste' role='status'>\n<p><strong>Versão de teste v4.3.7</strong> — 19/11/2026 (horário de Brasília). O <a href='https://painelaguaboa.github.io/'>painel oficial</a> não foi alterado. Os dados são os mesmos do painel oficial; o Controle de Operações Diárias usa dados de teste. O cartão programa do dia é só consulta.</p>\n</div>\n"
+"<div class='banner-teste' role='status'>\n<p><strong>Versão de teste v4.3.8</strong> — 19/11/2026 (horário de Brasília). O <a href='https://painelaguaboa.github.io/'>painel oficial</a> não foi alterado. Os dados são os mesmos do painel oficial; o Controle de Operações Diárias usa dados de teste. O cartão programa do dia é só consulta.</p>\n</div>\n"
 "<div id='menu'>\n<div class='menu menu-principal'>\n"
 "  <button class='mcard' data-abrir='carga'>" + I('i-relogio') + "<span class='mt1'>Carga horária</span></span><span class='md'>Horas do mês por militar, turnos registrados, serviço extraordinário, férias e situação individual.</span><span class='mv'><b data-draw='m-carga'>—</b> acima do limite do mês</span></button>\n"
 "  <button class='mcard' data-abrir='esc'>" + I('i-cal') + "<span class='mt1'>Escala</span></span><span class='md'>Serviço de hoje, próximos sete dias, escala do mês e previsão do mês seguinte.</span><span class='mv' data-draw='m-esc'>—</span></button>\n"
@@ -64,7 +64,8 @@ novo_inicio = ("<div id='inicio'>\n"
 "  <button class='mcard' data-abrir='operacoes'>" + I('i-alvo') + "<span class='mt1'>Operações</span></span><span class='md'>Operações por indicador, panorama diário, calendário e conferência.</span><span class='mv'><b data-draw='m-ops'>—</b> lançadas no mês</span></button>\n"
 "  <button class='mcard' data-abrir='resumo'>" + I('i-graf') + "<span class='mt1'>Resumo do mês</span></span><span class='md'>Indicadores do mês e comparativo mensal.</span><span class='mv'><b data-draw='m-resumo'>—</b> indicadores</span></button>\n"
 "  <button class='mcard' data-abrir='dia'>" + I('i-relogio') + "<span class='mt1'>Acompanhamento do dia / Cartão programa</span></span><span class='md'>Acompanhamento do dia, consulta do cartão programa e Controle de Operações Diárias.</span><span class='mv'><b data-draw='m-dia'>—</b> atividades previstas para hoje</span></button>\n"
-"</div>\n<div class='mais-mod'>\n<h2>Demais módulos</h2>\n<div class='menu menu-sec'>\n" + sec + "</div>\n</div>\n</div>\n  <div class='card mt' id='info-militares'>\n    <h2>Informações de Militares</h2>\n    <p class='sub' data-draw='im-resumo'></p>\n    <div data-draw='im-lista'></div>\n  </div>\n</div>\n\n")
+"  <button class='mcard' data-abrir='info-militares'>" + I('i-pessoas') + "<span class='mt1'>Informações de Militares</span></span><span class='md'>Carteira, publicação, arma, colete e munição do efetivo.</span><span class='mv' data-draw='m-im'>—</span></button>\n"
+"</div>\n<div class='mais-mod'>\n<h2>Demais módulos</h2>\n<div class='menu menu-sec'>\n" + sec + "</div>\n</div>\n</div>\n</div>\n\n")
 s = s[:i] + novo_inicio + s[j - len("<div id='grupo-topo'"):]
 # novas seções (panes)
 kpis_card = "<div class='card' id='resumo-card'>\n  <h2>Resumo do mês</h2>\n  <p class='sub'>Selecione o indicador para abrir o detalhe; use ← Voltar para retornar.</p>\n" + kpis.replace("<div class='kpis' id='kpis'>", "<div class='kpis' id='kpis'>") + "</div>\n"
@@ -78,7 +79,24 @@ novas = ("<section id='esc-hoje' data-pane='esc-hoje' hidden>\n" + hero + "\n</s
 "  <div class='card' id='cp-card'>\n    <h2>Cartão programa do dia</h2>\n    <p class='sub'>O que precisa ser lançado no dia: atividade, código, horário, local/subsetor e guarnição.</p>\n    <div data-draw='cp-dia'></div>\n  </div>\n"
 "  <div class='card mt' id='opd-card'>\n    <h2>Controle de Operações Diárias</h2>\n    <p class='sub'>Documento do mês na pasta 07 OPERAÇÕES E EVENTOS e operações previstas para hoje.</p>\n    <div data-draw='opd'></div>\n  </div>\n"
 "</section>\n\n")
-rep("<section id='turnos' data-pane='turnos' hidden>", novas + "<section id='turnos' data-pane='turnos' hidden>")
+
+SEC_IM = (
+"<section id='info-militares' data-pane='info-militares' hidden>\n"
+"  <div class='card' id='info-militares-card'>\n"
+"    <h2>Informações de Militares</h2>\n"
+"    <p class='sub'>Carteira, validade da CNH, publicação do credenciamento, arma (situação, marca, série e patrimônio), colete e munição .40. O número da CNH, o CPF, o telefone e o endereço não são exibidos.</p>\n"
+"    <p class='sub' data-draw='im-resumo'></p>\n"
+"    <div data-draw='im-lista'></div>\n"
+"  </div>\n"
+"</section>\n\n"
+)
+rep("<section id='turnos' data-pane='turnos' hidden>", novas + SEC_IM + "<section id='turnos' data-pane='turnos' hidden>")
+
+rep("  <span class='gtitulo' data-g='divergencias' hidden>Divergências</span>",
+    "  <span class='gtitulo' data-g='divergencias' hidden>Divergências</span>\n  <span class='gtitulo' data-g='info-militares' hidden>Informações de Militares</span>")
+rep("  <button class='tab' role='tab' data-grupo='patrulha-rural' data-tab='patrulha-rural' aria-selected='false'>Cadastramento rural</button>",
+    "  <button class='tab' role='tab' data-grupo='patrulha-rural' data-tab='patrulha-rural' aria-selected='false'>Cadastramento rural</button>\n  <button class='tab' role='tab' data-grupo='info-militares' data-tab='info-militares' aria-selected='false'>Informações de Militares</button>")
+
 # grupo-topo: voltar, títulos, limpar todos
 rep("  <button class='voltar' id='voltar'>Início</button>", "  <button class='voltar ant' id='voltar-ant' type='button' hidden>← Voltar</button>\n  <button class='voltar' id='voltar'>Início</button>")
 rep("  <span class='gtitulo' data-g='divergencias' hidden>Divergências</span>", "  <span class='gtitulo' data-g='divergencias' hidden>Divergências</span>\n  <span class='gtitulo' data-g='resumo' hidden>Resumo do mês</span>\n  <span class='gtitulo' data-g='dia' hidden>Acompanhamento do dia / Cartão programa</span>\n  <button type='button' class='limpar' id='limpar-todos' hidden><span class='x' aria-hidden='true'>×</span>Limpar todos os filtros</button>")
@@ -178,27 +196,27 @@ rep("if(igual){ultimo=raw;PA.raw=raw;", "if(igual){ultimo=raw;PA.raw=window.PA_N
 
 # ---------- addon JS antes da inicialização ----------
 addon = open(os.path.join(D, 'parts', 'addon.js'), encoding='utf-8').read()
-# v4.3.7 entra no teste e no oficial; o bloco OFICIAL remove faixa e dados estáticos
+# v4.3.8 entra no teste e no oficial; o bloco OFICIAL remove faixa e dados estáticos
 addon += '\n' + open(os.path.join(D, 'parts', 'addon_v436.js'), encoding='utf-8').read()
 addon += '\n' + open(os.path.join(D, 'parts', 'addon_v436_fix.js'), encoding='utf-8').read()
 addon += '\n' + open(os.path.join(D, 'parts', 'addon_v437.js'), encoding='utf-8').read()
 rep("p.textContent='Totais do mapa carga, sem numeração, patrimônio ou carga nominal. Quantidades individuais por militar não são exibidas neste painel, que é de acesso público.';", "p.textContent='Totais do mapa carga. A relação do material e o card Informações de Militares mostram a carga nominal (arma, colete e munição), com patrimônio e número de série. O número da CNH, o CPF, o telefone e o endereço não são exibidos.';")
 rep("<script>\n/* Inicialização (v4.3.1", "<script>\n" + addon + "\n</script>\n<script>\n/* Inicialização (v4.3.1")
 # cache local separado do oficial
-rep("const CK='pa_v434_dados_'", "const CK='pa_v437t_dados_'")
-s = s.replace("/^pa_v434_dados_/", "/^pa_v437t_dados_/")
+rep("const CK='pa_v434_dados_'", "const CK='pa_v438t_dados_'")
+s = s.replace("/^pa_v434_dados_/", "/^pa_v438t_dados_/")
 
 OUT = D
 if os.environ.get('OFICIAL') == '1':
-    # ---------- build OFICIAL v4.3.7 (sem marcas de teste, sem dados estáticos) ----------
+    # ---------- build OFICIAL v4.3.8 (sem marcas de teste, sem dados estáticos) ----------
     import re as _r
     OUT = os.path.join(D, 'oficial'); os.makedirs(OUT, exist_ok=True)
-    s = s.replace("<title>Painel Água Boa — versão de teste v4.3.7 (19/11/2026)</title>", "<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>")
-    s = s.replace("Painel v4.3.7-teste", "Painel v4.3.7")
+    s = s.replace("<title>Painel Água Boa — versão de teste v4.3.8 (19/11/2026)</title>", "<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>")
+    s = s.replace("Painel v4.3.8-teste", "Painel v4.3.8")
     s, k1 = _r.subn(r"<div class='banner-teste' role='status'>.*?</div>\n", "", s, count=1, flags=_r.S)
     s, k2 = _r.subn(r"\nwindow\.PA_OPD_TESTE=.*?;\n</script>", "\n</script>", s, count=1, flags=_r.S)
-    s = s.replace("pa_v437t_dados_", "pa_v437_dados_")
-    s = s.replace("CONFIGURAÇÃO ÚNICA DA VERSÃO DE TESTE v4.3.5", "CONFIGURAÇÃO ÚNICA v4.3.7")
+    s = s.replace("pa_v438t_dados_", "pa_v438_dados_")
+    s = s.replace("CONFIGURAÇÃO ÚNICA DA VERSÃO DE TESTE v4.3.5", "CONFIGURAÇÃO ÚNICA v4.3.8")
     assert k1 == 1 and k2 == 1, (k1, k2)
 open(os.path.join(OUT, 'src.html'), 'w', encoding='utf-8').write(s)
 print('src ok', len(s))

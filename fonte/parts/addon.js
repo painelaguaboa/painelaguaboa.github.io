@@ -9,6 +9,33 @@ const SEMANA=['domingo','segunda-feira','terça-feira','quarta-feira','quinta-fe
 const hojeISO=()=>{const d=new Date(Date.now()-3*36e5);return d.toISOString().slice(0,10)};
 PA.E=E;
 
+/* Remove nomes de militares do texto de equipe/turno (ex.: "B-BRAVO 08h–18h (Fontes/Macedo)" → "B-BRAVO 08h–18h").
+   Os nomes só apareciam quando a nota da escala trazia a guarnição entre parênteses; nos dias só com o cronograma, o campo vinha vazio. */
+PA.turnoSemNomes=function(eq){
+  let s=String(eq||'').replace(/\s*\(([^)]*)\)/g,(full,inner)=>{
+    const v=String(inner).trim();
+    if(/^\d/.test(v) || /\d{1,2}\s*h/i.test(v)) return ' ('+v+')';
+    return '';
+  }).replace(/\s{2,}/g,' ').trim();
+  if(/^sem nota de escala/i.test(s)) s='';
+  return s;
+};
+PA.rotuloAtividadePendente=function(c){
+  if(!c) return '';
+  const op=c.op||c.atividade||'Atividade prevista';
+  const cod=c.cod||c.codigo||'';
+  let hor=String(c.horario||c.hor||'').trim();
+  if(!hor && c.id!=null && window.dash && dash.data){
+    try{hor=String(((dash.data('reds_cp').data||[])[c.id]||{})['HORÁRIO PREVISTO']||'').trim()}catch(e){}
+  }
+  const turno=PA.turnoSemNomes(c.equipe||'');
+  const parts=[op+(cod?' ('+cod+')':'')];
+  if(turno) parts.push(turno);
+  if(hor && (!turno || turno.indexOf(hor)<0)) parts.push('previsto '+hor);
+  return parts.join(' · ');
+};
+
+
 /* ---------- 1. Registro de filtros e botão "Limpar" ---------- */
 PA.F=PA.F||{};
 PA.regFiltro=function(id,o){PA.F[id]=o};
@@ -93,7 +120,7 @@ dash.draw('ops-dia',el=>{el.replaceChildren();const dias=situacaoDias();if(!dias
  const cpD=(dash.data('cp').data||[]).filter(c=>c.data===r.data&&c.op);const ops=(dash.data('ops').data||[]).filter(o=>o.data===r.data);const reg=regDia().filter(x=>x.data===r.data);
  const k=E('div','meu');[[cpD.length,'Previstas no cartão'],[cpD.filter(c=>c.reds).length,'Previstas com REDS'],[cpD.filter(c=>!c.reds).length,'Previstas sem registro'],[ops.filter(o=>!o.verificar).length,'Lançadas na aba '+PA.M.NOME],[reg.length,'REDS do dia']].forEach(([v,l])=>{const m=E('div','mi');m.append(E('div','kv sm',String(v)),E('div','kl',l));k.appendChild(m)});box.appendChild(k);
  const sem=cpD.filter(c=>!c.reds);
- if(sem.length){box.appendChild(E('h3',null,'Previsto e não registrado'));const d=E('div','semr');const ul=E('ul','lst');sem.forEach(c=>ul.appendChild(E('li',null,c.op+' ('+c.cod+')'+(c.equipe?' · previsto: '+c.equipe:''))));d.appendChild(ul);box.appendChild(d)}
+ if(sem.length){box.appendChild(E('h3',null,'Previsto e não registrado'));const d=E('div','semr');const ul=E('ul','lst');sem.forEach(c=>ul.appendChild(E('li',null,PA.rotuloAtividadePendente(c))));d.appendChild(ul);box.appendChild(d)}
  const tabela=(tit,hd,linhas,vazio)=>{box.appendChild(E('h3',null,tit));if(!linhas.length){box.appendChild(E('p','sub',vazio));return}const tw=E('div','tw');const tb=E('table','cards');tb.innerHTML='<thead><tr>'+hd.map(h=>'<th>'+h+'</th>').join('')+'</tr></thead>';const body=E('tbody');linhas.forEach(l=>{const tr=E('tr');l.forEach((v,i)=>{const td=E('td',null,v==null||v===''?'—':String(v));td.setAttribute('data-label',hd[i]);tr.appendChild(td)});body.appendChild(tr)});tb.appendChild(body);tw.appendChild(tb);box.appendChild(tw)};
  tabela('Cartão programa do dia',['Operação prevista','Código previsto','Equipe/turno','Nº REDS','Situação'],cpD.map(c=>[c.op,c.cod,c.equipe,c.reds,c.status]),'Sem previsão no cartão programa neste dia.');
  tabela('Operações lançadas na aba '+PA.M.NOME,['Indicador','DIAO','Natureza','Nº REDS','Horário'],ops.map(o=>[o.indicador,o.diao,o.verificar?o.natureza+' · NECESSÁRIO VERIFICAÇÃO (não conta)':o.natureza,o.reds,o.inicio&&o.termino?o.inicio+'–'+o.termino:'']),'Nenhuma operação lançada na aba do mês neste dia.');
