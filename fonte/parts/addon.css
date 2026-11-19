@@ -195,3 +195,15 @@ body.sem-reds [data-draw='metas'] .mi{display:none}
 .pa .rodape-div{margin:14px 0 0;padding:0;border:0;background:transparent;font-size:.8rem;line-height:1.4;color:var(--color-fg-muted);font-weight:400}
 .pa .rodape-div a{color:var(--color-fg-muted);font-weight:400;text-decoration:underline}
 .pa .rodape-div[hidden]{display:none}
+
+/* v4.3.7 — Informações de Militares */
+.pa #info-militares{margin-top:16px}
+.pa table.im-tabela td.im-pub{overflow-wrap:anywhere;font-size:.92em}
+.pa table.im-tabela .im-val-alerta,.pa table.im-tabela .im-aviso{color:var(--pmmg-vermelho,#AB2328);font-weight:700}
+.pa table.im-tabela tr.im-alerta{box-shadow:inset 4px 0 0 var(--pmmg-vermelho,#AB2328)}
+@media (max-width:640px){
+  .pa table.im-tabela tr.im-alerta{box-shadow:none;border-left:4px solid var(--pmmg-vermelho,#AB2328)}
+  .pa table.im-tabela td[data-label='Militar']{display:block;font-weight:700;font-size:1.05rem;border-bottom:1px solid var(--color-border-line);margin-bottom:6px;padding-bottom:6px;text-align:left}
+  .pa table.im-tabela td[data-label='Militar']::before{display:none}
+  .pa table.im-tabela td.im-pub{text-align:right;font-size:.9em}
+}

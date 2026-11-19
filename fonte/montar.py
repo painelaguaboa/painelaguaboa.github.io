@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Monta a versão de teste ou a oficial v4.3.6 a partir do fonte v4.3.4 + parts."""
+"""Monta a versão de teste ou a oficial v4.3.7 a partir do fonte v4.3.4 + parts."""
 import json, re, os, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import patch_regras
@@ -24,8 +24,8 @@ def between(a, b):
     i = s.index(a); j = s.index(b, i) + len(b); return i, j
 
 # ---------- cabeçalho, versão, config única do Y15099, dados de teste ----------
-rep("<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>", "<title>Painel Água Boa — versão de teste v4.3.6 (19/11/2026)</title>")
-rep("<span style='margin:0 8px'>Painel v4.3.4</span>", "<span style='margin:0 8px'>Painel v4.3.6-teste</span>")
+rep("<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>", "<title>Painel Água Boa — versão de teste v4.3.7 (19/11/2026)</title>")
+rep("<span style='margin:0 8px'>Painel v4.3.4</span>", "<span style='margin:0 8px'>Painel v4.3.7-teste</span>")
 # v4.3.5-teste (18/11): pedido do Matheus – remover os cards de visitas tranquilizadoras da Carga horária e do Cartão programa
 import re as _re
 for _id in ('vis-escala','vis-cartao'):
@@ -55,7 +55,7 @@ sec = ''.join(mc(x) for x in ['produtividade', 'crimes', 'intendencia', 'eventos
 sec = sec.replace("<button class='mcard alerta' data-abrir='divergencias'>", "<button class='mcard' data-abrir='divergencias'>").replace("Divergências a regularizar na escala, nos turnos, nas viaturas e no abastecimento.", "Itens para conferir por área: carga horária, escala, abastecimento, viaturas e operações.").replace("<b data-draw='m-div'>—</b> pendências a regularizar", "<b data-draw='m-div'>—</b> itens para conferir")
 I = lambda ico: "<span class='mh'><svg class='ico' aria-hidden='true'><use href='#%s'/></svg>" % ico
 novo_inicio = ("<div id='inicio'>\n"
-"<div class='banner-teste' role='status'>\n<p><strong>Versão de teste v4.3.6</strong> — 19/11/2026 (horário de Brasília). O <a href='https://painelaguaboa.github.io/'>painel oficial</a> não foi alterado. Os dados são os mesmos do painel oficial; o Controle de Operações Diárias usa dados de teste. O cartão programa do dia é só consulta.</p>\n</div>\n"
+"<div class='banner-teste' role='status'>\n<p><strong>Versão de teste v4.3.7</strong> — 19/11/2026 (horário de Brasília). O <a href='https://painelaguaboa.github.io/'>painel oficial</a> não foi alterado. Os dados são os mesmos do painel oficial; o Controle de Operações Diárias usa dados de teste. O cartão programa do dia é só consulta.</p>\n</div>\n"
 "<div id='menu'>\n<div class='menu menu-principal'>\n"
 "  <button class='mcard' data-abrir='carga'>" + I('i-relogio') + "<span class='mt1'>Carga horária</span></span><span class='md'>Horas do mês por militar, turnos registrados, serviço extraordinário, férias e situação individual.</span><span class='mv'><b data-draw='m-carga'>—</b> acima do limite do mês</span></button>\n"
 "  <button class='mcard' data-abrir='esc'>" + I('i-cal') + "<span class='mt1'>Escala</span></span><span class='md'>Serviço de hoje, próximos sete dias, escala do mês e previsão do mês seguinte.</span><span class='mv' data-draw='m-esc'>—</span></button>\n"
@@ -64,7 +64,7 @@ novo_inicio = ("<div id='inicio'>\n"
 "  <button class='mcard' data-abrir='operacoes'>" + I('i-alvo') + "<span class='mt1'>Operações</span></span><span class='md'>Operações por indicador, panorama diário, calendário e conferência.</span><span class='mv'><b data-draw='m-ops'>—</b> lançadas no mês</span></button>\n"
 "  <button class='mcard' data-abrir='resumo'>" + I('i-graf') + "<span class='mt1'>Resumo do mês</span></span><span class='md'>Indicadores do mês e comparativo mensal.</span><span class='mv'><b data-draw='m-resumo'>—</b> indicadores</span></button>\n"
 "  <button class='mcard' data-abrir='dia'>" + I('i-relogio') + "<span class='mt1'>Acompanhamento do dia / Cartão programa</span></span><span class='md'>Acompanhamento do dia, consulta do cartão programa e Controle de Operações Diárias.</span><span class='mv'><b data-draw='m-dia'>—</b> atividades previstas para hoje</span></button>\n"
-"</div>\n<div class='mais-mod'>\n<h2>Demais módulos</h2>\n<div class='menu menu-sec'>\n" + sec + "</div>\n</div>\n</div>\n</div>\n\n")
+"</div>\n<div class='mais-mod'>\n<h2>Demais módulos</h2>\n<div class='menu menu-sec'>\n" + sec + "</div>\n</div>\n</div>\n  <div class='card mt' id='info-militares'>\n    <h2>Informações de Militares</h2>\n    <p class='sub' data-draw='im-resumo'></p>\n    <div data-draw='im-lista'></div>\n  </div>\n</div>\n\n")
 s = s[:i] + novo_inicio + s[j - len("<div id='grupo-topo'"):]
 # novas seções (panes)
 kpis_card = "<div class='card' id='resumo-card'>\n  <h2>Resumo do mês</h2>\n  <p class='sub'>Selecione o indicador para abrir o detalhe; use ← Voltar para retornar.</p>\n" + kpis.replace("<div class='kpis' id='kpis'>", "<div class='kpis' id='kpis'>") + "</div>\n"
@@ -178,25 +178,27 @@ rep("if(igual){ultimo=raw;PA.raw=raw;", "if(igual){ultimo=raw;PA.raw=window.PA_N
 
 # ---------- addon JS antes da inicialização ----------
 addon = open(os.path.join(D, 'parts', 'addon.js'), encoding='utf-8').read()
-# v4.3.6 entra no teste e no oficial; o bloco OFICIAL remove faixa e dados estáticos
+# v4.3.7 entra no teste e no oficial; o bloco OFICIAL remove faixa e dados estáticos
 addon += '\n' + open(os.path.join(D, 'parts', 'addon_v436.js'), encoding='utf-8').read()
 addon += '\n' + open(os.path.join(D, 'parts', 'addon_v436_fix.js'), encoding='utf-8').read()
+addon += '\n' + open(os.path.join(D, 'parts', 'addon_v437.js'), encoding='utf-8').read()
+rep("p.textContent='Totais do mapa carga, sem numeração, patrimônio ou carga nominal. Quantidades individuais por militar não são exibidas neste painel, que é de acesso público.';", "p.textContent='Totais do mapa carga. A relação do material e o card Informações de Militares mostram a carga nominal (arma, colete e munição), com patrimônio e número de série. O número da CNH, o CPF, o telefone e o endereço não são exibidos.';")
 rep("<script>\n/* Inicialização (v4.3.1", "<script>\n" + addon + "\n</script>\n<script>\n/* Inicialização (v4.3.1")
 # cache local separado do oficial
-rep("const CK='pa_v434_dados_'", "const CK='pa_v435t_dados_'")
-s = s.replace("/^pa_v434_dados_/", "/^pa_v435t_dados_/")
+rep("const CK='pa_v434_dados_'", "const CK='pa_v437t_dados_'")
+s = s.replace("/^pa_v434_dados_/", "/^pa_v437t_dados_/")
 
 OUT = D
 if os.environ.get('OFICIAL') == '1':
-    # ---------- build OFICIAL v4.3.6 (sem marcas de teste, sem dados estáticos) ----------
+    # ---------- build OFICIAL v4.3.7 (sem marcas de teste, sem dados estáticos) ----------
     import re as _r
     OUT = os.path.join(D, 'oficial'); os.makedirs(OUT, exist_ok=True)
-    s = s.replace("<title>Painel Água Boa — versão de teste v4.3.6 (19/11/2026)</title>", "<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>")
-    s = s.replace("Painel v4.3.6-teste", "Painel v4.3.6")
+    s = s.replace("<title>Painel Água Boa — versão de teste v4.3.7 (19/11/2026)</title>", "<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>")
+    s = s.replace("Painel v4.3.7-teste", "Painel v4.3.7")
     s, k1 = _r.subn(r"<div class='banner-teste' role='status'>.*?</div>\n", "", s, count=1, flags=_r.S)
     s, k2 = _r.subn(r"\nwindow\.PA_OPD_TESTE=.*?;\n</script>", "\n</script>", s, count=1, flags=_r.S)
-    s = s.replace("pa_v435t_dados_", "pa_v436_dados_")
-    s = s.replace("CONFIGURAÇÃO ÚNICA DA VERSÃO DE TESTE v4.3.5", "CONFIGURAÇÃO ÚNICA v4.3.6")
+    s = s.replace("pa_v437t_dados_", "pa_v437_dados_")
+    s = s.replace("CONFIGURAÇÃO ÚNICA DA VERSÃO DE TESTE v4.3.5", "CONFIGURAÇÃO ÚNICA v4.3.7")
     assert k1 == 1 and k2 == 1, (k1, k2)
 open(os.path.join(OUT, 'src.html'), 'w', encoding='utf-8').write(s)
 print('src ok', len(s))
