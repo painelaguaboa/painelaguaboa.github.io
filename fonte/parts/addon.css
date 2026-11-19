@@ -269,3 +269,42 @@ body.sem-reds [data-draw='metas'] .mi{display:none}
   .pa .gtopo #limpar-todos .limpar-rotulo-full{display:none}
   .pa .gtopo #limpar-todos .limpar-rotulo-curto{display:inline}
 }
+
+/* ===== v4.4.1: janela do detalhe do REDS e card Registros ===== */
+body.pa-reds-aberto{overflow:hidden}
+.pa-reds-overlay{position:fixed;inset:0;z-index:80}
+.pa-reds-back{position:absolute;inset:0;border:0;padding:0;margin:0;width:100%;height:100%;background:rgba(20,20,20,.45);cursor:pointer}
+.pa-reds-sheet{position:absolute;background:var(--color-panel,#fff);color:inherit;box-shadow:0 -8px 32px rgba(0,0,0,.18);display:flex;flex-direction:column;max-height:92vh;overflow:auto;overscroll-behavior:contain}
+.pa-reds-topo{position:sticky;top:0;z-index:2;display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:10px 12px;background:var(--color-panel,#fff);border-bottom:1px solid var(--color-border-line,#d5d0c8)}
+.pa-reds-fechar{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;margin:0;padding:6px 10px;min-height:36px;border:1px solid var(--color-border-line,#d5d0c8);background:#fff;color:inherit;font:inherit;font-size:.85rem;font-weight:700;line-height:1.2;cursor:pointer;white-space:nowrap;width:auto;max-width:100%}
+.pa-reds-fechar:hover,.pa-reds-fechar:focus-visible{border-color:var(--pmmg-caqui,#C5A572);outline:none}
+.pa-reds-x{font-size:1.15rem;line-height:1;font-weight:700}
+.pa-reds-tit{flex:1 1 8rem;min-width:0;display:flex;flex-direction:column;gap:2px}
+.pa-reds-tit strong{display:block;font-size:.95rem;font-weight:700;letter-spacing:.01em;line-height:1.3;overflow-wrap:break-word;word-break:normal;hyphens:manual}
+.pa-reds-tipo{font-size:.78rem;color:var(--color-fg-muted,#5c5c5c);line-height:1.3;overflow-wrap:break-word;word-break:normal}
+.pa-reds-nav{display:flex;gap:6px;flex:0 0 auto}
+.pa-reds-np{min-height:36px;padding:4px 10px;font-size:.85rem;white-space:nowrap;width:auto}
+.pa-reds-corpo{padding:12px 14px 20px;min-width:0}
+.pa-reds-dl{display:grid;grid-template-columns:minmax(7rem,34%) 1fr;gap:8px 12px;margin:0}
+.pa-reds-dl dt{margin:0;font-size:.72rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--color-fg-muted,#5c5c5c);line-height:1.35;overflow-wrap:break-word;word-break:normal}
+.pa-reds-dl dd{margin:0;font-size:.95rem;line-height:1.4;overflow-wrap:break-word;word-break:normal;min-width:0}
+.pa-reds-dl dd.pa-reds-resumo{grid-column:1/-1;padding:10px 12px;background:var(--color-bg-muted,#f6f3ee);border-left:4px solid var(--pmmg-caqui,#C5A572)}
+td.pa-reds-cel{text-decoration:underline;text-underline-offset:2px}
+tr.pa-reds-flash,button.pa-reds-flash,td.pa-reds-flash,.pa-reds-flash{
+  box-shadow:inset 4px 0 0 var(--pmmg-verde,#1F4D3A),0 0 0 2px var(--pmmg-caqui,#C5A572);
+  animation:pa-reds-flash-anim 2.6s ease-out 1;
+}
+@keyframes pa-reds-flash-anim{
+  0%{background:rgba(197,165,114,.35)}
+  100%{background:transparent}
+}
+@media (max-width:720px){
+  .pa-reds-sheet{left:0;right:0;bottom:0;width:100%;border-radius:16px 16px 0 0;animation:pa-reds-sobe .22s ease-out}
+  .pa-reds-dl{grid-template-columns:1fr}
+  .pa-reds-dl dt{margin-top:4px}
+}
+@media (min-width:721px){
+  .pa-reds-sheet{top:50%;left:50%;transform:translate(-50%,-50%);width:min(540px,92vw);max-height:86vh;border-radius:0;border:1px solid var(--color-border-line,#d5d0c8);border-left:6px solid var(--pmmg-caqui,#C5A572);animation:pa-reds-fade .18s ease-out}
+}
+@keyframes pa-reds-sobe{from{transform:translateY(24px);opacity:.4}to{transform:translateY(0);opacity:1}}
+@keyframes pa-reds-fade{from{opacity:.4}to{opacity:1}}

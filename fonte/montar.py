@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Monta a versão de teste ou a oficial v4.4.0 a partir do fonte v4.3.4 + parts."""
+"""Monta a versão de teste ou a oficial v4.4.1 a partir do fonte v4.3.4 + parts."""
 import json, re, os, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import patch_regras
@@ -24,8 +24,8 @@ def between(a, b):
     i = s.index(a); j = s.index(b, i) + len(b); return i, j
 
 # ---------- cabeçalho, versão, config única do Y15099, dados de teste ----------
-rep("<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>", "<title>Painel Água Boa — versão de teste v4.4.0 (19/11/2026)</title>")
-rep("<span style='margin:0 8px'>Painel v4.3.4</span>", "<span style='margin:0 8px'>Painel v4.4.0-teste</span>")
+rep("<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>", "<title>Painel Água Boa — versão de teste v4.4.1 (19/11/2026)</title>")
+rep("<span style='margin:0 8px'>Painel v4.3.4</span>", "<span style='margin:0 8px'>Painel v4.4.1-teste</span>")
 # v4.3.5-teste (18/11): pedido do Matheus – remover os cards de visitas tranquilizadoras da Carga horária e do Cartão programa
 import re as _re
 for _id in ('vis-escala','vis-cartao'):
@@ -65,7 +65,7 @@ def secao(tit, cards):
     return "<section class='home-sec'>" + NL + "<h2>" + tit + "</h2>" + NL + "<div class='menu home-menu'>" + NL + "".join(cards) + "</div>" + NL + "</section>" + NL
 novo_inicio = (
 "<div id='inicio' class='home-padrao'>" + NL +
-"<div class='banner-teste' role='status'>" + NL + "<p><strong>Versão de teste v4.4.0</strong> — 19/11/2026 (horário de Brasília). Home padronizada e cabeçalho das telas internas.</p>" + NL + "</div>" + NL +
+"<div class='banner-teste' role='status'>" + NL + "<p><strong>Versão de teste v4.4.1</strong> — 19/11/2026 (horário de Brasília). Card Registros e detalhe do REDS em janela sobreposta.</p>" + NL + "</div>" + NL +
 "<div id='menu'>" + NL +
 secao('Operacional', [
     card('operacoes','i-alvo','Operações','Lançadas no mês','m-ops'),
@@ -76,6 +76,7 @@ secao('Operacional', [
 ]) +
 secao('Ocorrências', [
     card('produtividade','i-graf','REDS','Indicadores, registros e apreensões','m-prod'),
+    card('registros-reds','i-escudo','Registros','RAT, BO, BOS e TCO do período','m-reg'),
     card('crimes','i-lupa','Crimes','Visitas tranquilizadoras pendentes','m-cri'),
 ]) +
 secao('Pessoal', [
@@ -117,12 +118,23 @@ SEC_IM = (
 "  </div>\n"
 "</section>\n\n"
 )
-rep("<section id='turnos' data-pane='turnos' hidden>", novas + SEC_IM + "<section id='turnos' data-pane='turnos' hidden>")
+
+SEC_RG = (
+"<section id='registros-reds' data-pane='registros-reds' hidden>\n"
+"  <div class='card' id='rg-card'>\n"
+"    <h2>Registros do período</h2>\n"
+"    <p class='sub'>Todos os REDS de Água Boa no mês, separados pelo tipo do documento (campo TIPO da aba REGISTROS). BO reúne BO policial, BO de trânsito, BO ambiental e BO de desaparecimento/localização; BOS reúne BOS e BOS Amplo. TCO (Termo Circunstanciado de Ocorrência) só entra quando o tipo do REDS for TCO — neste recorte não há nenhum. Toque num tipo e, em seguida, num REDS para ver o detalhe.</p>\n"
+"    <div data-draw='rg-tipos'></div>\n"
+"    <div data-draw='rg-lista'></div>\n"
+"  </div>\n"
+"</section>\n\n"
+)
+rep("<section id='turnos' data-pane='turnos' hidden>", novas + SEC_IM + SEC_RG + "<section id='turnos' data-pane='turnos' hidden>")
 
 rep("  <span class='gtitulo' data-g='divergencias' hidden>Divergências</span>",
-    "  <span class='gtitulo' data-g='divergencias' hidden>Divergências</span>\n  <span class='gtitulo' data-g='info-militares' hidden>Informações de Militares</span>")
+    "  <span class='gtitulo' data-g='divergencias' hidden>Divergências</span>\n  <span class='gtitulo' data-g='info-militares' hidden>Informações de Militares</span>\n  <span class='gtitulo' data-g='registros-reds' hidden>Registros</span>")
 rep("  <button class='tab' role='tab' data-grupo='patrulha-rural' data-tab='patrulha-rural' aria-selected='false'>Cadastramento rural</button>",
-    "  <button class='tab' role='tab' data-grupo='patrulha-rural' data-tab='patrulha-rural' aria-selected='false'>Cadastramento rural</button>\n  <button class='tab' role='tab' data-grupo='info-militares' data-tab='info-militares' aria-selected='false'>Informações de Militares</button>")
+    "  <button class='tab' role='tab' data-grupo='patrulha-rural' data-tab='patrulha-rural' aria-selected='false'>Cadastramento rural</button>\n  <button class='tab' role='tab' data-grupo='info-militares' data-tab='info-militares' aria-selected='false'>Informações de Militares</button>\n  <button class='tab' role='tab' data-grupo='registros-reds' data-tab='registros-reds' aria-selected='false'>Registros</button>")
 
 # grupo-topo: voltar, títulos, limpar todos
 rep("  <button class='voltar' id='voltar'>Início</button>", "  <button class='voltar ant' id='voltar-ant' type='button' hidden>← Voltar</button>\n  <button class='voltar' id='voltar'>Início</button>")
@@ -228,7 +240,7 @@ addon = open(os.path.join(D, 'parts', 'addon.js'), encoding='utf-8').read()
 SEC_CR = (
 "  <div class='card' id='cr-grupos-card'>\n"
 "    <h2>Crimes por grupo do Código Penal</h2>\n"
-"    <p class='sub'>Os fatos do mês em Água Boa, agrupados pelos títulos do Código Penal e pelas leis especiais (Maria da Penha, drogas, armas e trânsito). Toque num grupo para ver os BOs e, em cada BO, um card para análise. O painel não exibe nomes de envolvidos, CPF, telefone nem endereço completo.</p>\n"
+"    <p class='sub'>Os fatos do mês em Água Boa, agrupados pelos títulos do Código Penal e pelas leis especiais (Maria da Penha, drogas, armas e trânsito). Toque num grupo para ver os BOs. O detalhe abre numa janela sobreposta; ao fechar, a lista volta à mesma posição. O painel não exibe nomes de envolvidos, CPF, telefone nem endereço completo.</p>\n"
 "    <p class='sub warn' data-draw='aviso' data-k='reds_crimes' hidden></p>\n"
 "    <div data-draw='cr-grupos'></div>\n"
 "    <div data-draw='cr-grupo-lista'></div>\n"
@@ -239,29 +251,30 @@ SEC_CR = (
 rep("<section id='crimes' data-pane='crimes' hidden>\n  <div class='card' id='cr-natureza'>",
     "<section id='crimes' data-pane='crimes' hidden>\n" + SEC_CR + "  <div class='card' id='cr-natureza'>")
 
-# v4.4.0 entra no teste e no oficial; o bloco OFICIAL remove faixa e dados estáticos
+# v4.4.1 entra no teste e no oficial; o bloco OFICIAL remove faixa e dados estáticos
 addon += '\n' + open(os.path.join(D, 'parts', 'addon_v436.js'), encoding='utf-8').read()
 addon += '\n' + open(os.path.join(D, 'parts', 'addon_v436_fix.js'), encoding='utf-8').read()
 addon += '\n' + open(os.path.join(D, 'parts', 'addon_v437.js'), encoding='utf-8').read()
 addon += '\n' + open(os.path.join(D, 'parts', 'addon_v438.js'), encoding='utf-8').read()
 addon += '\n' + open(os.path.join(D, 'parts', 'addon_v440.js'), encoding='utf-8').read()
+addon += '\n' + open(os.path.join(D, 'parts', 'addon_v441.js'), encoding='utf-8').read()
 rep("p.textContent='Totais do mapa carga, sem numeração, patrimônio ou carga nominal. Quantidades individuais por militar não são exibidas neste painel, que é de acesso público.';", "p.textContent='Totais do mapa carga. A relação do material e o card Informações de Militares mostram a carga nominal (arma, colete e munição), com patrimônio e número de série. O número da CNH, o CPF, o telefone e o endereço não são exibidos.';")
 rep("<script>\n/* Inicialização (v4.3.1", "<script>\n" + addon + "\n</script>\n<script>\n/* Inicialização (v4.3.1")
 # cache local separado do oficial
-rep("const CK='pa_v434_dados_'", "const CK='pa_v440t_dados_'")
-s = s.replace("/^pa_v434_dados_/", "/^pa_v440t_dados_/")
+rep("const CK='pa_v434_dados_'", "const CK='pa_v441t_dados_'")
+s = s.replace("/^pa_v434_dados_/", "/^pa_v441t_dados_/")
 
 OUT = D
 if os.environ.get('OFICIAL') == '1':
-    # ---------- build OFICIAL v4.4.0 (sem marcas de teste, sem dados estáticos) ----------
+    # ---------- build OFICIAL v4.4.1 (sem marcas de teste, sem dados estáticos) ----------
     import re as _r
     OUT = os.path.join(D, 'oficial'); os.makedirs(OUT, exist_ok=True)
-    s = s.replace("<title>Painel Água Boa — versão de teste v4.4.0 (19/11/2026)</title>", "<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>")
-    s = s.replace("Painel v4.4.0-teste", "Painel v4.4.0")
+    s = s.replace("<title>Painel Água Boa — versão de teste v4.4.1 (19/11/2026)</title>", "<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>")
+    s = s.replace("Painel v4.4.1-teste", "Painel v4.4.1")
     s, k1 = _r.subn(r"<div class='banner-teste' role='status'>.*?</div>\n", "", s, count=1, flags=_r.S)
     s, k2 = _r.subn(r"\nwindow\.PA_OPD_TESTE=.*?;\n</script>", "\n</script>", s, count=1, flags=_r.S)
-    s = s.replace("pa_v440t_dados_", "pa_v440_dados_")
-    s = s.replace("CONFIGURAÇÃO ÚNICA DA VERSÃO DE TESTE v4.3.5", "CONFIGURAÇÃO ÚNICA v4.4.0")
+    s = s.replace("pa_v441t_dados_", "pa_v441_dados_")
+    s = s.replace("CONFIGURAÇÃO ÚNICA DA VERSÃO DE TESTE v4.3.5", "CONFIGURAÇÃO ÚNICA v4.4.1")
     assert k1 == 1 and k2 == 1, (k1, k2)
 open(os.path.join(OUT, 'src.html'), 'w', encoding='utf-8').write(s)
 print('src ok', len(s))
