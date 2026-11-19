@@ -53,15 +53,20 @@
 .pa .pr-map{height:420px;border:1px solid var(--color-border-line);background:var(--pmmg-caqui-15);position:relative;z-index:0}
 .pa .pr-leg{display:flex;flex-wrap:wrap;gap:12px;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);margin-top:8px}
 .pa .pr-leg i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-1px;border:2px solid var(--pmmg-preto)}
-.pa .pr-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
-.pa .pr-card{text-align:left;background:var(--color-bg);border:1px solid var(--color-border-line);border-left:4px solid var(--pmmg-caqui);border-radius:0;padding:12px;cursor:pointer;font:inherit;color:var(--color-fg);display:grid;gap:6px}
-.pa .pr-card[aria-pressed='true']{border:2px solid var(--pmmg-caqui);border-left-width:6px;background:var(--pmmg-caqui-15)}
-.pa .pr-card .pn{font-weight:700;font-size:1.02rem;line-height:1.25}
-.pa .pr-card .pk{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
-.pa .pr-card .pk div{display:grid}
-.pa .pr-card .pk b{font-size:1.25rem;font-family:var(--font-sans)}
-.pa .pr-card .pk span{font-size:.75rem;color:var(--color-fg-muted)}
-.pa .pr-card .pp{font-size:.8rem;color:var(--color-fg-muted)}
+.pa .pr-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:stretch}
+.pa .pr-card{text-align:left;background:var(--color-bg);border:1px solid var(--color-border-line);border-left:4px solid var(--pmmg-caqui);border-radius:0;padding:12px;cursor:pointer;font:inherit;color:var(--color-fg);display:grid;grid-template-rows:auto auto 1fr;gap:8px;min-width:0;height:100%;box-sizing:border-box}
+.pa .pr-card[aria-pressed='true']{border-color:var(--pmmg-caqui);border-width:2px;border-left-width:6px;background:var(--pmmg-caqui-15)}
+.pa .pr-card .pn{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;font-weight:700;font-size:1.02rem;line-height:1.25;min-width:0;min-height:3.8em}
+.pa .pr-card .pn-tit{min-width:0;flex:1;overflow-wrap:anywhere}
+.pa .pr-card .pn-selo{flex:none;font-size:.68rem;font-weight:600;letter-spacing:.04em;color:var(--color-fg-muted);border:1px solid var(--color-border-line);padding:2px 6px;white-space:nowrap;line-height:1.2}
+.pa .pr-card .pk{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 8px;align-items:start}
+.pa .pr-card .pk-item,.pa .pr-card .pk div{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;min-width:0;gap:2px}
+.pa .pr-card .pk b{font-size:1.25rem;font-family:var(--font-sans);line-height:1.15;font-variant-numeric:tabular-nums;text-align:center;width:100%}
+.pa .pr-card .pk span{font-size:.75rem;color:var(--color-fg-muted);text-align:center;line-height:1.2;width:100%;white-space:nowrap}
+.pa .pr-corpo{display:flex;flex-direction:column;justify-content:flex-end;gap:4px;min-height:0;margin-top:auto}
+.pa .pr-card .pp{font-size:.8rem;color:var(--color-fg-muted);line-height:1.35}
+.pa .pr-card .pp-base{margin-top:2px}
+@media (max-width:1023px){.pa .pr-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .pa .pr-grupo{margin-bottom:12px}
 .pa .pr-grupo h3{margin:10px 0 4px;font-size:1rem}
 .pa .leaflet-container{font:inherit}
@@ -79,6 +84,8 @@
   .pa .fbar .limpar,.pa .fbar .pbtn{flex:1 1 auto}
   .pa .menu-principal{grid-template-columns:1fr 1fr}
   .pa .menu-sec{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){
   .pa .pr-cards{grid-template-columns:1fr}
 }
 .pa .menu-principal .mcard[data-abrir='dia']{grid-column:1/-1}
@@ -182,3 +189,9 @@ body.sem-reds [data-draw='metas'] .mi{display:none}
   .pa table.cards tr.pag-oculta,
   .pa table.tabela-mobile tr.pag-oculta{display:none !important}
 }
+
+/* divergências: uma linha discreta no rodapé; some as faixas da home */
+#faixa-div,#destaque-div-inicio{display:none!important}
+.pa .rodape-div{margin:14px 0 0;padding:0;border:0;background:transparent;font-size:.8rem;line-height:1.4;color:var(--color-fg-muted);font-weight:400}
+.pa .rodape-div a{color:var(--color-fg-muted);font-weight:400;text-decoration:underline}
+.pa .rodape-div[hidden]{display:none}

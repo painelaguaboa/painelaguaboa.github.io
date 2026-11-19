@@ -274,47 +274,27 @@ function listaDiv(){
   }catch(e){return []}
 }
 function atuarFaixaDiv(){
+  ['faixa-div','destaque-div-inicio'].forEach(id=>{const el=document.getElementById(id);if(el)el.remove()});
   const all=listaDiv();
   const vis=all.filter(x=>PA.divBaixas||x.gravidade!=='Baixa');
   const n=vis.length||all.length;
-  function pintar(box, noInicio){
-    if(!box)return;
-    if(!n){box.hidden=true;box.replaceChildren();return}
-    box.hidden=false;
-    const txt=plural(n,'%s item em Divergências para conferir','%s itens em Divergências para conferir');
-    if(box.dataset.n===String(n)&&box.textContent.indexOf('Divergências')>=0)return;
-    box.dataset.n=String(n);
-    box.replaceChildren();
-    const a=E('a',null,txt);
-    a.href='#divergencias';
-    a.addEventListener('click',ev=>{ev.preventDefault();if(window.PA_ir)window.PA_ir('divergencias');else if(window.PA_abrir)PA_abrir('divergencias')});
-    box.appendChild(a);
-    if(noInicio&&all.length&&vis.length!==all.length){
-      box.appendChild(document.createTextNode(' (exibindo gravidade alta e média; use “Mostrar baixas” na aba para ver todas).'));
-    }
+  let box=document.getElementById('rodape-div');
+  if(!box){
+    box=E('p','rodape-div'); box.id='rodape-div';
+    const rod=document.querySelector('.pa .rodape, .rodape');
+    if(rod&&rod.parentNode) rod.parentNode.insertBefore(box, rod);
+    else document.body.appendChild(box);
   }
-  let top=document.getElementById('faixa-div');
-  if(!top){
-    top=E('div','aviso-faixa faixa-div'); top.id='faixa-div';
-    const bar=document.getElementById('statusbar');
-    if(bar&&bar.parentNode)bar.insertAdjacentElement('afterend',top);
-  }
-  pintar(top,false);
-  const ini=document.getElementById('inicio');
-  if(ini){
-    let home=document.getElementById('destaque-div-inicio');
-    if(!home){
-      home=E('div','aviso-faixa faixa-div destaque-div-inicio'); home.id='destaque-div-inicio';
-      const hoje=document.getElementById('bloco-hoje');
-      if(hoje) hoje.insertAdjacentElement('afterend',home);
-      else{
-        const ban=ini.querySelector('.banner-teste');
-        if(ban) ban.insertAdjacentElement('afterend',home);
-        else ini.insertBefore(home, ini.firstChild);
-      }
-    }
-    pintar(home,true);
-  }
+  if(!n){box.hidden=true;box.replaceChildren();return}
+  const txt=plural(n,'%s item em Divergências para conferir','%s itens em Divergências para conferir');
+  if(box.dataset.n===String(n)&&box.textContent===txt){box.hidden=false;return}
+  box.dataset.n=String(n);
+  box.hidden=false;
+  box.replaceChildren();
+  const a=E('a',null,txt);
+  a.href='#divergencias';
+  a.addEventListener('click',ev=>{ev.preventDefault();if(window.PA_ir)window.PA_ir('divergencias');else if(window.PA_abrir)PA_abrir('divergencias')});
+  box.appendChild(a);
 }
 PA._atuFaixaDiv=atuarFaixaDiv;
 

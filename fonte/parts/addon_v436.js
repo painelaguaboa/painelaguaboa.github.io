@@ -386,21 +386,8 @@ function blocoHoje(){
   setTimeout(preencher,800);
 }
 function faixaDivergencias(){
-  if(document.getElementById('faixa-div'))return;
-  const bar=document.getElementById('statusbar'); if(!bar)return;
-  const box=E('div','aviso-faixa faixa-div'); box.id='faixa-div'; box.hidden=true;
-  bar.insertAdjacentElement('afterend',box);
-  const atu=()=>{
-    let n=0;
-    try{ (()=>{const d=dash.data&&dash.data('div');const all=(d&&d.status==='ok'&&d.data)||[];return all.filter(x=>PA.divBaixas||x.gravidade!=='Baixa').length})() }catch(e){}
-    if(!n){box.hidden=true;return}
-    box.hidden=false; box.replaceChildren();
-    const a=E('a',null, n+' item'+ (n===1?'':'s')+' em Divergências para conferir');
-    a.href='#divergencias'; a.addEventListener('click',ev=>{ev.preventDefault();window.PA_ir('divergencias')});
-    box.appendChild(a);
-  };
-  PA._atuFaixaDiv=atu;
-  setTimeout(atu,800);
+  /* a faixa da home foi para o rodapé (atuarFaixaDiv em addon_v436_fix.js) */
+  if(PA._atuFaixaDiv) setTimeout(PA._atuFaixaDiv,800);
 }
 
 /* 26 — naturezas só na tela */

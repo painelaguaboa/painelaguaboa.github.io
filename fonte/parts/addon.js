@@ -168,10 +168,17 @@ dash.draw('pr-filtro',el=>{el.replaceChildren();const p=prOk();if(!p)return;cons
 dash.draw('pr-sel',el=>{const p=prOk();const r=p&&(p.porSubsetor||[]).find(x=>x.sub===PA.selSub);el.textContent=r?'Filtro: '+subNome(r)+' (subsetor '+r.sub+'). Os totais do card de cadastramento e a evolução continuam sendo do município.':'Visão geral do município. Selecione um subsetor no filtro, no mapa ou nos cartões.'});
 dash.draw('pr-cards',el=>{el.replaceChildren();const p=prOk();if(!p)return;const g=E('div','pr-cards');
  (p.porSubsetor||[]).filter(r=>!PA.selSub||r.sub===PA.selSub).forEach(r=>{const b=E('button','pr-card');b.type='button';b.setAttribute('aria-pressed',String(PA.selSub===r.sub));
-  const nm=subRot(subNome(r),r.sub,'span');nm.className='pn';const pend=Math.max(0,(r.comunidadesPlano||0)-(r.cobertosPlano||0));
-  const k=E('div','pk');[[r.cadastros,'cadastros'],[r.cobertosPlano+'/'+r.comunidadesPlano,'comunidades do plano'],[pend,'pendentes']].forEach(([v,l])=>{const d=E('div');d.append(E('b',null,String(v)),E('span',null,l));k.appendChild(d)});
-  const pp=E('div','pp',r.nomeCompleto||'');const bs=E('div','pp','Base: '+(r.est!=null?r.est+' estab. agropecuários · ':'')+(r.car!=null?r.car+' imóveis CAR':''));
-  b.append(nm,k,pp,bs);b.addEventListener('click',()=>PA.setSub(r.sub));g.appendChild(b)});el.appendChild(g)});
+  const cab=E('div','pn');cab.append(E('span','pn-tit',subNome(r)));
+  const selo=E('span','pn-selo','Setor '+String(r.sub==null?'':r.sub).padStart(2,'0'));
+  selo.setAttribute('aria-label','subsetor '+r.sub);cab.appendChild(selo);
+  const pend=Math.max(0,(r.comunidadesPlano||0)-(r.cobertosPlano||0));
+  const k=E('div','pk');
+  [[r.cadastros,'cadastros',null],[r.cobertosPlano+'/'+r.comunidadesPlano,'comunidades','comunidades do plano cobertas'],[pend,'pendentes',null]].forEach(([v,l,tit])=>{
+    const d=E('div','pk-item');d.append(E('b',null,String(v)),E('span',null,l));if(tit)d.title=tit;k.appendChild(d);
+  });
+  const corpo=E('div','pr-corpo');
+  corpo.append(E('div','pp pp-com',r.nomeCompleto||''),E('div','pp pp-base','Base: '+(r.est!=null?r.est+' estab. agropecuários · ':'')+(r.car!=null?r.car+' imóveis CAR':'')));
+  b.append(cab,k,corpo);b.addEventListener('click',()=>PA.setSub(r.sub));g.appendChild(b)});el.appendChild(g)});
 dash.draw('prural-subsetores',el=>{el.replaceChildren();const p=prOk();if(!p)return;const tb=E('table','cards');const hd=['Subsetor','Cadastros','Comunidades do plano','Est. agro (base)','Imóveis CAR (base)'];tb.innerHTML='<thead><tr>'+hd.map(h=>'<th>'+h+'</th>').join('')+'</tr></thead>';const body=E('tbody');
  (p.porSubsetor||[]).filter(r=>!PA.selSub||r.sub===PA.selSub).forEach(r=>{const tr=E('tr');[null,r.cadastros,r.cobertosPlano+' de '+r.comunidadesPlano,r.est,r.car].forEach((v,i)=>{const td=E('td');td.setAttribute('data-label',hd[i]);if(i===0){td.appendChild(subRot(subNome(r),r.sub));if(r.nomeCompleto)td.appendChild(E('small','sub-full',r.nomeCompleto))}else td.textContent=v==null?'—':String(v);tr.appendChild(td)});body.appendChild(tr)});tb.appendChild(body);const tw=E('div','tw');tw.appendChild(tb);el.appendChild(tw)});
 dash.draw('prural-lacunas',el=>{el.replaceChildren();const p=prOk();if(!p)return;const subs=(p.porSubsetor||[]).filter(r=>!PA.selSub||r.sub===PA.selSub);
