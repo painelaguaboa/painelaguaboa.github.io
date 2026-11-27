@@ -1,14 +1,14 @@
-# Fonte editável do Painel Destacamento Água Boa (v4.4.4 oficial)
+# Fonte editável do Painel Destacamento Água Boa (v4.4.5 oficial)
 
 ## REGRAS DE CONFIABILIDADE (Matheus, 27/11/2026 — valem acima de tudo)
 1. **As planilhas são o backend e a única fonte da verdade.** O painel só lê e exibe. É proibido dado embutido ou cópia no HTML e proibido número calculado fora das tabelas sem rastreio. Todo número do painel vem de uma extração lançada nas planilhas pelas rotinas, com registro no LOG.
 2. **A leitura é por cabeçalho e ordenada por data**, nunca pela posição ou ordem das linhas.
 3. **Parâmetros ficam na aba CONFIG**, não no código. O inventário está em `AUDITORIA_HARDCODE_v445.md`.
 4. **Portão de publicação:** só publica no oficial se `ferramentas/conferir_painel.py` (planilhas × /exec × site) der **OK 100%**. O procedimento está em `Rotinas/CONFERENCIA_PAINEL.md`.
-6. **Crime violento (CV) segue o rol taxativo da DIAO/GDO** (Instrução 8007.2/2023-CG). Conta-se pela aba `D_NATUREZAS_CV`, nunca pela coluna CATEGORIA: `R_CV_CLASSIFICACAO` e a linha `CV_CRIMES` da aba METAS. A sigla `CV` da aba METAS é a meta de visita A20001, outra coisa. A versão v4.4.5, que lê METAS, não se publica enquanto a conferência acusar divergência de CV.
+6. **Crime violento (CV) segue o rol taxativo da DIAO/GDO** (Instrução 8007.2/2023-CG). Conta-se pela aba `D_NATUREZAS_CV`, nunca pela coluna CATEGORIA: `R_CV_CLASSIFICACAO` e a linha `CV_CRIMES` da aba METAS. A sigla `CV` da aba METAS é a meta de visita A20001, outra coisa. A visita A20001 devida segue `D_NATUREZAS_CV.GERA_VISITA`, o CV do rol e a violência doméstica; o realizado é qualquer A20001 do mês. Detalhes em `Rotinas/R2_REGRA_VISITA_A20001.md`.
 5. A padronização para vários destacamentos está em `ARQUITETURA_BI.md`. Não se altera a estrutura das planilhas sem aprovação.
 
-- HTML **v4.4.5 (TESTE, 27/11/2026)** em https://painelaguaboa.github.io/teste-v445/ — não publicado no oficial.
+- HTML **v4.4.5 OFICIAL**, publicada em 27/11/2026 às 00h35 (horário de Brasília) com aprovação do Matheus, depois da conferência automática OK 100% (136 verificações) no teste e no build oficial. O backup da v4.4.4 está em `backup/index_v444_antes_v445.html`.
   - Calendário de operações: a previsão vem do Controle de Operações Diárias (`opdiarias`) nos dias que a R2 ainda não analisou, com o estado "Aguardando REDS" e sem cálculo no navegador; o cumprimento vem só da aba CARTÃO PROGRAMA x REDS; a data de hoje é a de Brasília (antes era UTC).
   - METAS: realizado e projeção vêm da aba METAS. Antes, o navegador recalculava, e a CV dava 1 contra 0 na planilha.
   - Sem dado embutido: saíram `PA_REDS_CONF_TESTE` e `PA_OPD_TESTE` do teste e a tabela fixa `PA_MIL_NPM`, porque o servidor envia `mil_npm`.

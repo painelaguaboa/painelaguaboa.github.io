@@ -138,10 +138,33 @@ def main():
             lab = norm(r.get('CATEGORIA')) == 'CRIME VIOLENTO'; dimv = e_cv(r.get('CÓDIGO'), r.get('NATUREZA'))
             if lab != dimv:
                 R.ok('CV (rol taxativo)', f"{r['Nº REDS']} {r.get('CÓDIGO')} {r.get('NATUREZA')}: CATEGORIA da aba REGISTROS", 'crime violento' if dimv else 'não CV', r.get('CATEGORIA'), 'corrigir a linha com aprovação do Matheus')
+        # visita A20001 devida (regra do Matheus de 27/11/2026): D_NATUREZAS_CV.GERA_VISITA, CV do rol ou violência doméstica
+        gv = {norm(r.get('COD_NATUREZA')): norm(r.get('GERA_VISITA')).startswith('SIM') for r in P['D_NATUREZAS_CV'] if r.get('COD_NATUREZA')}
+        nomes = [norm(r.get('NATUREZA')) for r in P['D_NATUREZAS_CV'] if not r.get('COD_NATUREZA') and norm(r.get('GERA_VISITA')).startswith('SIM') and r.get('NATUREZA')]
+        def gera(r):
+            c = norm(r.get('CÓDIGO')); n = norm(r.get('NATUREZA'))
+            if re.match(r'^[AYQ]', c): return False
+            return gv.get(c, False) or e_cv(c, n) or norm(r.get('VIOLÊNCIA DOMÉSTICA (S/N)')) == 'S' or norm(r.get('CATEGORIA')) == norm('violência doméstica/Maria da Penha') or any(x in n for x in nomes)
+        # o servidor não envia a coluna VIOLÊNCIA DOMÉSTICA (S/N): vem da planilha (REGISTROS_VD.csv = REGISTROS!Z, mesma ordem de linhas de REGISTROS.csv)
+        vdp = {}
+        if a.planilhas and os.path.exists(os.path.join(a.planilhas, 'REGISTROS_VD.csv')):
+            ra = list(csv.reader(open(os.path.join(a.planilhas, 'REGISTROS.csv'), encoding='utf-8')))
+            rz = list(csv.reader(open(os.path.join(a.planilhas, 'REGISTROS_VD.csv'), encoding='utf-8')))
+            for x, z in zip(ra[1:], rz[1:]):
+                if x and x[0].strip(): vdp[x[0].strip()] = (z[0] if z else '').strip()
+        else: R.nc('Visita A20001 (regra 27/11)', 'coluna VIOLÊNCIA DOMÉSTICA da planilha', 'REGISTROS_VD.csv ausente')
+        for r in reg:
+            if not r.get('VIOLÊNCIA DOMÉSTICA (S/N)'): r['VIOLÊNCIA DOMÉSTICA (S/N)'] = vdp.get(r['Nº REDS'], '')
+        devidas = sorted(r['Nº REDS'] for r in reg if norm(r.get('MUNICÍPIO')) == 'AGUA BOA' and gera(r))
         cr = tab(raw.get('reds_crimes') or [])
-        for r in cr:
-            if 'A20001' in str(r.get('VISITA INDICADA (CÓDIGO)', '')).upper() and not e_cv(r.get('CÓDIGO'), r.get('NATUREZA')):
-                R.ok('CV (rol taxativo)', f"{r.get('Nº REDS')} {r.get('NATUREZA')}: visita A20001 (pós-crime violento) indicada", 'só para CV do rol', 'indicada para crime fora do rol', 'decisão do Matheus: a regra local (Bizu) inclui esse crime?')
+        indic = sorted(r.get('Nº REDS') for r in cr if norm(r.get('MUNICÍPIO')) == 'AGUA BOA' and 'A20001' in str(r.get('VISITA INDICADA (CÓDIGO)', '')).upper())
+        R.ok('Visita A20001 (regra 27/11)', 'REDS com visita A20001 devida: dimensão x aba CRIMES E VISITAS (indicação)', json.dumps(devidas), json.dumps(indic))
+        a20001 = sorted(r['Nº REDS'] for r in reg if norm(r.get('MUNICÍPIO')) == 'AGUA BOA' and norm(r.get('CÓDIGO')) == 'A20001')
+        if P['METAS'] is not None:
+            lcv = [r for r in P['METAS'] if r.get('SIGLA', '').strip().upper() == 'CV']
+            if lcv:
+                R.ok('Visita A20001 (regra 27/11)', 'METAS CV (última linha): META = visitas devidas', str(len(devidas)), str(col(lcv[-1], 'META')).strip())
+                R.ok('Visita A20001 (regra 27/11)', 'METAS CV (última linha): REALIZADO = qualquer A20001 do mês', str(len(a20001)), str(col(lcv[-1], 'REALIZADO')).strip())
         if P['METAS'] is not None:
             lm = next((r for r in P['METAS'] if r.get('SIGLA', '').strip().upper() == 'CV_CRIMES'), None)
             if lm is None: R.ok('CV (rol taxativo)', 'linha CV_CRIMES na aba METAS', 'presente', 'ausente')

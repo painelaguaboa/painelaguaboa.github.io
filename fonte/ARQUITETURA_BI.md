@@ -48,7 +48,11 @@ Um arquivo **BASE <UNIDADE>** (por exemplo BASE M0876) com tabelas em formato lo
   - O crime violento (CV) segue o **rol taxativo** da DIAO/GDO (Instrução 8007.2/2023-CG, GDO 5ª ed.; SEJUSP dados.mg.gov.br/dataset/crimes-violentos): homicídio (tentado e consumado), roubo (T/C), estupro (T/C), estupro de vulnerável (T/C), extorsão (T/C), extorsão mediante sequestro (C) e sequestro e cárcere privado (T/C).
   - Nenhuma outra natureza é CV (lesão corporal, importunação sexual, ameaça, furto: NÃO).
   - A coluna CATEGORIA não decide CV: o indicador é sempre `F_REDS × D_NATUREZAS_CV`, na aba R_CV_CLASSIFICACAO, só por fórmula.
-  - A meta de visita tranquilizadora (A20001) é outra coisa: quais crimes geram visita devida é regra local (Bizu/P3) e deve ficar em D_NATUREZAS (coluna VISITA_DEVIDA), separada do indicador CV.
+  - A meta de visita tranquilizadora (A20001) é outra coisa. Pela regra do Matheus de 27/11/2026, a visita é devida para:
+    - CV do rol;
+    - violência doméstica;
+    - natureza com `GERA_VISITA` = SIM na dimensão: lesão corporal e crimes que podem evoluir para CV (importunação sexual, ameaça, perseguição, vias de fato, violação de domicílio, porte e disparo de arma).
+  - O realizado é qualquer A20001 do mês. Regra completa em Rotinas/R2_REGRA_VISITA_A20001.md.
 - **D_CALENDARIO**: DATA, ANO_MES, DIA_SEMANA, FERIADO.
 - **D_METAS**: ANO_MES, SIGLA, META, CODIGOS.
 
