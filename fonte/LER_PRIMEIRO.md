@@ -5,6 +5,7 @@
 2. **A leitura é por cabeçalho e ordenada por data**, nunca pela posição ou ordem das linhas.
 3. **Parâmetros ficam na aba CONFIG**, não no código. O inventário está em `AUDITORIA_HARDCODE_v445.md`.
 4. **Portão de publicação:** só publica no oficial se `ferramentas/conferir_painel.py` (planilhas × /exec × site) der **OK 100%**. O procedimento está em `Rotinas/CONFERENCIA_PAINEL.md`.
+6. **Crime violento (CV) segue o rol taxativo da DIAO/GDO** (Instrução 8007.2/2023-CG). Conta-se pela aba `D_NATUREZAS_CV`, nunca pela coluna CATEGORIA: `R_CV_CLASSIFICACAO` e a linha `CV_CRIMES` da aba METAS. A sigla `CV` da aba METAS é a meta de visita A20001, outra coisa. A versão v4.4.5, que lê METAS, não se publica enquanto a conferência acusar divergência de CV.
 5. A padronização para vários destacamentos está em `ARQUITETURA_BI.md`. Não se altera a estrutura das planilhas sem aprovação.
 
 - HTML **v4.4.5 (TESTE, 27/11/2026)** em https://painelaguaboa.github.io/teste-v445/ — não publicado no oficial.
