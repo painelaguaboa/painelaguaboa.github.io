@@ -10,6 +10,7 @@ DIR contém as exportações CSV que a rotina grava a partir das planilhas (cone
   CONFERENCIA.csv    (mesma planilha, aba CONFERÊNCIA)
   CARTAO.csv         (mesma planilha, aba CARTÃO PROGRAMA x REDS)
   METAS.csv          (mesma planilha, aba METAS)
+  D_NATUREZAS_CV.csv (mesma planilha, aba D_NATUREZAS_CV — rol taxativo de crimes violentos)
   OPERACOES.csv      (CONTROLE OPERAÇÕES POG <ANO>, aba do mês)
 Sem DIR, confere só servidor x site (as linhas "planilha" ficam como NÃO CONFERIDO e o resultado não é 100%).
 Saída: relatório .md e .json em --saida (padrão /workspace/painel/conferencia). Código 0 = 100% OK; 1 = divergência; 2 = erro.
@@ -78,7 +79,7 @@ def main():
     R.ok('Servidor', 'sem _erros no /exec', 'nenhum', 'nenhum' if not raw.get('_erros') else json.dumps(raw.get('_erros'))[:200])
     reg = tab(raw.get('reds_reg') or []); cp = tab(raw.get('reds_cp') or []); conf = tab(raw.get('reds_conf') or [])
     ops = tab(raw.get('ops') or []); metas = tab(raw.get('reds_metas') or []); opd = (raw.get('opdiarias') or {}).get('dias') or []
-    P = {k: (lecsv(a.planilhas, k + '.csv') if a.planilhas else None) for k in ['REGISTROS', 'CONFERENCIA', 'CARTAO', 'METAS', 'OPERACOES']}
+    P = {k: (lecsv(a.planilhas, k + '.csv') if a.planilhas else None) for k in ['REGISTROS', 'CONFERENCIA', 'CARTAO', 'METAS', 'OPERACOES', 'D_NATUREZAS_CV']}
     # 1) REGISTROS planilha x servidor
     sreg = {r['Nº REDS'] for r in reg}
     if P['REGISTROS'] is None: R.nc('REDS', 'REGISTROS planilha x servidor', 'exportação REGISTROS.csv ausente')
@@ -119,6 +120,35 @@ def main():
         sm = {r.get('SIGLA', ''): (col(r, 'META'), col(r, 'REALIZADO')) for r in metas}
         for k in sorted(set(pm) | set(sm)):
             if k: R.ok('METAS (planilha x servidor)', k, json.dumps(pm.get(k)), json.dumps(sm.get(k)))
+    # 5b) CRIMES VIOLENTOS (rol taxativo DIAO/GDO) pela dimensão D_NATUREZAS_CV — regra do Matheus de 27/11/2026
+    if P['D_NATUREZAS_CV'] is None: R.nc('CV (rol taxativo)', 'dimensão D_NATUREZAS_CV', 'exportação D_NATUREZAS_CV.csv ausente')
+    else:
+        dim = {norm(r.get('COD_NATUREZA')): norm(r.get('E_CV')).startswith('SIM') for r in P['D_NATUREZAS_CV'] if r.get('COD_NATUREZA')}
+        ROL = re.compile(r'^(HOMICIDIO|ROUBO|ESTUPRO|EXTORSAO|SEQUESTRO E CARCERE)')
+        def e_cv(cod, nat):
+            c = norm(cod); n = norm(nat)
+            if c in dim: return dim[c]
+            return bool(ROL.match(n)) and 'CULPOSO' not in n
+        for r in reg:
+            c = norm(r.get('CÓDIGO')); n = norm(r.get('NATUREZA'))
+            if c not in dim and ROL.match(n) and 'CULPOSO' not in n:
+                R.ok('CV (rol taxativo)', f"{r['Nº REDS']}: código {r.get('CÓDIGO')} ({r.get('NATUREZA')}) cadastrado na dimensão", 'sim', 'não', 'incluir o código na aba D_NATUREZAS_CV')
+        cvs = sorted(r['Nº REDS'] for r in reg if norm(r.get('MUNICÍPIO')) == 'AGUA BOA' and e_cv(r.get('CÓDIGO'), r.get('NATUREZA')))
+        for r in reg:
+            lab = norm(r.get('CATEGORIA')) == 'CRIME VIOLENTO'; dimv = e_cv(r.get('CÓDIGO'), r.get('NATUREZA'))
+            if lab != dimv:
+                R.ok('CV (rol taxativo)', f"{r['Nº REDS']} {r.get('CÓDIGO')} {r.get('NATUREZA')}: CATEGORIA da aba REGISTROS", 'crime violento' if dimv else 'não CV', r.get('CATEGORIA'), 'corrigir a linha com aprovação do Matheus')
+        cr = tab(raw.get('reds_crimes') or [])
+        for r in cr:
+            if 'A20001' in str(r.get('VISITA INDICADA (CÓDIGO)', '')).upper() and not e_cv(r.get('CÓDIGO'), r.get('NATUREZA')):
+                R.ok('CV (rol taxativo)', f"{r.get('Nº REDS')} {r.get('NATUREZA')}: visita A20001 (pós-crime violento) indicada", 'só para CV do rol', 'indicada para crime fora do rol', 'decisão do Matheus: a regra local (Bizu) inclui esse crime?')
+        if P['METAS'] is not None:
+            lm = next((r for r in P['METAS'] if r.get('SIGLA', '').strip().upper() == 'CV_CRIMES'), None)
+            if lm is None: R.ok('CV (rol taxativo)', 'linha CV_CRIMES na aba METAS', 'presente', 'ausente')
+            else:
+                R.ok('CV (rol taxativo)', 'CV de Água Boa: aba METAS (CV_CRIMES) x cálculo pela dimensão', str(len(cvs)), str(col(lm, 'REALIZADO')).strip())
+                ref = sorted(x.strip() for x in str(col(lm, 'REDS CONSIDERADOS') or '').split(',') if x.strip())
+                R.ok('CV (rol taxativo)', 'REDS CV de Água Boa: aba METAS x dimensão', json.dumps(cvs), json.dumps(ref))
     # 6) Site
     if not a.sem_site:
         try: S = ler_site(a.site)

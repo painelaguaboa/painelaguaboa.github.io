@@ -44,6 +44,11 @@ Um arquivo **BASE <UNIDADE>** (por exemplo BASE M0876) com tabelas em formato lo
 - **D_NATUREZAS**: COD, NOME, GRUPO_CRIME, INDICADOR_META, ROTULO_EXIBICAO. Aqui fica o Y15099 = "Atividade rural".
 - **D_CODIGOS_ESCALA**: COD, HORA_INI, HORA_FIM, HORAS, PRE_TURNO, TIPO (serviço/afastamento).
 - **D_LOCAIS**: ID, NOME_OFICIAL, VARIANTES, ZONA, SETOR, LAT, LON.
+- **D_NATUREZAS_CV** (criada em 27/11/2026 na planilha REDS NOVEMBRO; vai para a BASE): COD_NATUREZA, NATUREZA, MODALIDADE, E_CV (SIM/NÃO), FONTE, CODIGO_CONFERIDO, OBSERVACAO.
+  - O crime violento (CV) segue o **rol taxativo** da DIAO/GDO (Instrução 8007.2/2023-CG, GDO 5ª ed.; SEJUSP dados.mg.gov.br/dataset/crimes-violentos): homicídio (tentado e consumado), roubo (T/C), estupro (T/C), estupro de vulnerável (T/C), extorsão (T/C), extorsão mediante sequestro (C) e sequestro e cárcere privado (T/C).
+  - Nenhuma outra natureza é CV (lesão corporal, importunação sexual, ameaça, furto: NÃO).
+  - A coluna CATEGORIA não decide CV: o indicador é sempre `F_REDS × D_NATUREZAS_CV`, na aba R_CV_CLASSIFICACAO, só por fórmula.
+  - A meta de visita tranquilizadora (A20001) é outra coisa: quais crimes geram visita devida é regra local (Bizu/P3) e deve ficar em D_NATUREZAS (coluna VISITA_DEVIDA), separada do indicador CV.
 - **D_CALENDARIO**: DATA, ANO_MES, DIA_SEMANA, FERIADO.
 - **D_METAS**: ANO_MES, SIGLA, META, CODIGOS.
 
@@ -88,6 +93,7 @@ Item fora do padrão não entra: vai para o LOG com o motivo.
 ## 5. Validações e camada de conferência
 - **Na planilha:** validação de dados (listas, datas, regex), proteção das abas de resumo e formatação condicional para ID duplicado.
 - **No servidor (Code.gs):** lê por cabeçalho e até a última linha (sem `A1:J80`), devolve `_avisos` por coluna faltando e `_conta` (linhas por tabela).
+- **Crimes violentos:** a conferência recalcula o CV pela dimensão e compara com a linha CV_CRIMES da aba METAS. Acusa também CATEGORIA divergente do rol, natureza do rol sem código na dimensão e visita A20001 indicada para crime fora do rol.
 - **Conferência automática** (`ferramentas/conferir_painel.py`): planilhas × `/exec` × site, dia a dia, com portão OK 100%. Está descrita em Rotinas/CONFERENCIA_PAINEL.md.
 
 ## 6. Clonar para um destacamento novo

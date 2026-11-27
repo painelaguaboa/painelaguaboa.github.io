@@ -16,6 +16,7 @@ Criada em 27/11/2026 (horário de Brasília), a pedido do Matheus: "Esse dashboa
 | Cartão programa | por dia, previstas/com REDS: planilha × servidor × calendário do site |
 | Operações | linhas da aba do mês: planilha × servidor × site |
 | METAS | META e REALIZADO: planilha × servidor × site |
+| CV (rol taxativo) | CV de Água Boa recalculado com REGISTROS × D_NATUREZAS_CV × linha CV_CRIMES da aba METAS (total e lista de REDS); CATEGORIA "crime violento" fora do rol; natureza do rol sem código na dimensão; visita A20001 indicada para crime fora do rol |
 | Site | sem erro de JavaScript, sem cópia de dados embutida, total de REDS, REDS de Água Boa, faixa REDS visível com a data certa |
 
 ## Rotina diária (8h45, depois da R1)
@@ -23,13 +24,14 @@ Criada em 27/11/2026 (horário de Brasília), a pedido do Matheus: "Esse dashboa
    - planilha REDS do mês (ID na CONFIG, coluna ID REDS):
      - `CARTÃO PROGRAMA x REDS!A1:K1000`
      - `CONFERÊNCIA!A1:D400`
-     - `METAS!A1:I50`
+     - `METAS!A1:M30`
      - `REGISTROS!A1:G1000`
+     - `D_NATUREZAS_CV!A1:G200`
    - planilha de operações (ID OPERAÇÕES da CONFIG): aba do mês `A1:D1000`.
-2. Gravar os CSVs:
+2. Gravar os CSVs. Os nomes vão na mesma ordem dos intervalos lidos:
    ```
    cd /workspace/painel/v443/ferramentas
-   python3 salvar_csv.py <arquivo_REDS> /workspace/painel/conferencia/planilhas CARTAO CONFERENCIA METAS REGISTROS
+   python3 salvar_csv.py <arquivo_REDS> /workspace/painel/conferencia/planilhas CARTAO CONFERENCIA METAS REGISTROS D_NATUREZAS_CV
    python3 salvar_csv.py <arquivo_OPS> /workspace/painel/conferencia/planilhas OPERACOES
    ```
 3. Rodar em segundo plano. A leitura nova do servidor leva de 30 a 60 s.
