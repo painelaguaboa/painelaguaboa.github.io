@@ -46,3 +46,7 @@ window.PA_COMP_NOT=function(ini,dur){if(ini==null||!(dur>0))return {min_faixa:0,
   for(var k=-1;k<=2;k++){var s=(k*24+23)*60,e=(k*24+29)*60;m+=Math.max(0,Math.min(b,e)-Math.max(a,s))}
   m=Math.round(m);var h=Math.floor(m/60);return {min_faixa:m,horas_completas:h,comp_min:h*10}};
 window.PA_PRE_TURNO=0.5; /* Pré-turno (30 min) por turno escalado */
+/* v4.4.3 — DSP (Diligência de Segurança Pública) é SERVIÇO: soma na carga horária e não reduz o limite.
+   A legenda da escala não traz horário nem carga da DSP. Informe aqui as horas por dia de DSP (ex.: 8).
+   null = carga diária ainda não definida: a DSP aparece como serviço, mas o previsto soma 0 h (contam só as horas registradas). */
+window.PA_DSP_HORAS_DIA=null;
