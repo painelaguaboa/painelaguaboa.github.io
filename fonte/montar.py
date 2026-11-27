@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Monta a versão de teste ou a oficial v4.4.3 a partir do fonte v4.3.4 + parts."""
+"""Monta a versão de teste ou a oficial v4.4.4 a partir do fonte v4.3.4 + parts."""
 import json, re, os, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import patch_regras
@@ -24,8 +24,8 @@ def between(a, b):
     i = s.index(a); j = s.index(b, i) + len(b); return i, j
 
 # ---------- cabeçalho, versão, config única do Y15099, dados de teste ----------
-rep("<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>", "<title>Painel Água Boa — versão de teste v4.4.3 (26/11/2026)</title>")
-rep("<span style='margin:0 8px'>Painel v4.3.4</span>", "<span style='margin:0 8px'>Painel v4.4.3-teste</span>")
+rep("<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>", "<title>Painel Água Boa — versão de teste v4.4.4 (26/11/2026)</title>")
+rep("<span style='margin:0 8px'>Painel v4.3.4</span>", "<span style='margin:0 8px'>Painel v4.4.4-teste</span>")
 # v4.3.5-teste (18/11): pedido do Matheus – remover os cards de visitas tranquilizadoras da Carga horária e do Cartão programa
 import re as _re
 for _id in ('vis-escala','vis-cartao'):
@@ -65,7 +65,7 @@ def secao(tit, cards):
     return "<section class='home-sec'>" + NL + "<h2>" + tit + "</h2>" + NL + "<div class='menu home-menu'>" + NL + "".join(cards) + "</div>" + NL + "</section>" + NL
 novo_inicio = (
 "<div id='inicio' class='home-padrao'>" + NL +
-"<div class='banner-teste' role='status'>" + NL + "<p><strong>Versão de teste v4.4.3</strong> — 26/11/2026 (horário de Brasília). Listas dos cards Registros e Crimes, ordem por data invertível, DSP como serviço e REDS conferido.</p>" + NL + "</div>" + NL +
+"<div class='banner-teste' role='status'>" + NL + "<p><strong>Versão de teste v4.4.4</strong> — 26/11/2026 (horário de Brasília). Faixa do REDS conferido sempre em destaque (verde em dia, vermelha com atraso) e DSP sem divergência falsa.</p>" + NL + "</div>" + NL +
 "<div id='menu'>" + NL +
 secao('Operacional', [
     card('operacoes','i-alvo','Operações','Lançadas no mês','m-ops'),
@@ -326,7 +326,9 @@ rep("m.cod.forEach((c,i)=>{const z=info(c);if(z.h){t++;h+=z.h;", "m.cod.forEach(
 rep("if(z.h>0)(tur[z.k]=tur[z.k]||[]).push(m.militar);", "if(z.h>0||z.servico)(tur[z.k]=tur[z.k]||[]).push(m.militar);")
 rep("if(h)leg[norm(c)]={codigo:c,horario:h}}}",
     "if(h)leg[norm(c)]={codigo:c,horario:h}}}\n    if(leg['DSP']&&/^DSP$/i.test(String(leg['DSP'].horario).trim()))leg['DSP'].horario='Diligência de Segurança Pública'+(+window.PA_DSP_HORAS_DIA>0?'':' (carga diária a definir)');")
-rep("if(hh){sit=reg.length?'Cumprido'", "if(hh||c==='DSP'){sit=reg.length?'Cumprido'")
+rep("if(hh){sit=reg.length?'Cumprido'", "if(c==='DSP'&&!hh){sit=reg.length?'Cumprido':'DSP'}else if(hh){sit=reg.length?'Cumprido'")
+# v4.4.4 — código sem horário de término (CPR, DSP com carga) só fica pendente depois que o dia termina (00h de Brasília do dia seguinte)
+rep("if(f==null)return dia<=corte;", "if(f==null)return dia<=corte&&agoraMs>=Date.UTC(PA.M.ano,PA.M.mes-1,dia+1,3,0);")
 rep("Previsto da escala = horas do turno + 30 min de pré-turno por turno escalado (não há pré-turno em folga, férias, licença, DP, RH ou CPR).",
     "Previsto da escala = horas do turno + 30 min de pré-turno por turno escalado (não há pré-turno em folga, férias, licença, DP, RH ou CPR). DSP (Diligência de Segurança Pública) é serviço: soma na carga horária e não reduz o limite; enquanto a carga diária da DSP não for definida, entram só as horas registradas no CONTROLE.")
 # Outras situações (TC, DP, DSP sem horário etc.) no card Escala da tela inicial
@@ -343,30 +345,32 @@ rep("""  const ref=dataRedsMaisRecente();
   const ref=conf||ult;
   if(!ref)return null;
   const n=diasEntre(ref,hojeISO());
-  const atr=n!=null&&n>1;
+  const hBR=(new Date(Date.now()-3*3600e3)).getUTCHours();
+  const atr=n!=null&&(n>2||(n===2&&hBR>=8));
   let texto=conf?'REDS conferido até '+isoDdMm(conf)+(ult&&ult<conf?' — sem novos registros desde '+isoDdMm(ult):(!ult?' — sem registros no mês':'')):'REDS atualizado até '+isoDdMm(ref);
   if(atr)texto+=' (há '+n+' dias)';
   return {ref,dias:n,atrasado:atr,conferido:!!conf,texto};""")
-rep("""  const info=textoRedsAte();
-  if(!info){""", """  const info=textoRedsAte();
-  if(!info||!info.atrasado){""")
-rep("""  if(reds) item('REDS', reds.texto);""", """  /* v4.4.3: a linha REDS de "Hoje e alertas" é mantida por linhaReds() (addon_v443), uma só vez */""")
-rep("function faixaReds(){", "PA._textoRedsAte=textoRedsAte;\nfunction faixaReds(){")
+rep("""  box.classList.toggle('atrasado', !!info.atrasado);
+  if(box.textContent!==info.texto) box.textContent=info.texto;""", """  box.classList.toggle('atrasado', !!info.atrasado);box.classList.toggle('em-dia', !info.atrasado);
+  const tx=(info.atrasado?'⚠ ':'✓ ')+info.texto+(info.atrasado?' — conferência atrasada':'');
+  if(box.textContent!==tx) box.textContent=tx;""")
+rep("""  if(reds) item('REDS', reds.texto);""", """  /* v4.4.4: REDS só na faixa em destaque (#aviso-reds-ate), não em "Hoje e alertas" */""")
+rep("function faixaReds(){", "PA._textoRedsAte=textoRedsAte;PA._faixaReds=faixaReds;\nfunction faixaReds(){")
 # cache local separado do oficial
-rep("const CK='pa_v434_dados_'", "const CK='pa_v443t_dados_'")
-s = s.replace("/^pa_v434_dados_/", "/^pa_v443t_dados_/")
+rep("const CK='pa_v434_dados_'", "const CK='pa_v444t_dados_'")
+s = s.replace("/^pa_v434_dados_/", "/^pa_v444t_dados_/")
 
 OUT = D
 if os.environ.get('OFICIAL') == '1':
-    # ---------- build OFICIAL v4.4.3 (sem marcas de teste, sem dados estáticos) ----------
+    # ---------- build OFICIAL v4.4.4 (sem marcas de teste, sem dados estáticos) ----------
     import re as _r
     OUT = os.path.join(D, 'oficial'); os.makedirs(OUT, exist_ok=True)
-    s = s.replace("<title>Painel Água Boa — versão de teste v4.4.3 (26/11/2026)</title>", "<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>")
-    s = s.replace("Painel v4.4.3-teste", "Painel v4.4.3")
+    s = s.replace("<title>Painel Água Boa — versão de teste v4.4.4 (26/11/2026)</title>", "<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>")
+    s = s.replace("Painel v4.4.4-teste", "Painel v4.4.4")
     s, k1 = _r.subn(r"<div class='banner-teste' role='status'>.*?</div>\n", "", s, count=1, flags=_r.S)
     s, k2 = _r.subn(r"\nwindow\.PA_OPD_TESTE=.*?;\n</script>", "\n</script>", s, count=1, flags=_r.S)
-    s = s.replace("pa_v443t_dados_", "pa_v443_dados_")
-    s = s.replace("CONFIGURAÇÃO ÚNICA DA VERSÃO DE TESTE v4.3.5", "CONFIGURAÇÃO ÚNICA v4.4.3")
+    s = s.replace("pa_v444t_dados_", "pa_v444_dados_")
+    s = s.replace("CONFIGURAÇÃO ÚNICA DA VERSÃO DE TESTE v4.3.5", "CONFIGURAÇÃO ÚNICA v4.4.4")
     assert k1 == 1 and k2 == 1, (k1, k2)
 open(os.path.join(OUT, 'src.html'), 'w', encoding='utf-8').write(s)
 print('src ok', len(s))

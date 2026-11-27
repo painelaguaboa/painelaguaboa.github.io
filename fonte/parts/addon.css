@@ -411,3 +411,7 @@ tr.pa-reds-flash,button.pa-reds-flash,td.pa-reds-flash,.pa-reds-flash{
 .pa-hbar-bar{display:block;height:100%;background:var(--pmmg-caqui,#C5A572);min-width:4px}
 .pa-hbar-bar.hot{background:var(--pmmg-vermelho,#9b1b30)}
 .pa-hbar-n{flex:0 0 auto;font-weight:700;font-size:.88rem;line-height:1;min-width:1.2rem}
+/* v4.4.4 — faixa do REDS conferido sempre em destaque */
+.aviso-reds-ate{margin:10px 12px;padding:10px 14px;border:1px solid;border-left-width:6px;border-radius:4px;font-size:1rem;font-weight:700;line-height:1.35}
+.aviso-reds-ate.em-dia{border-color:#2e7d32;background:#e8f5e9;color:#1b5e20}
+.aviso-reds-ate.atrasado{border-color:var(--pmmg-vermelho,#AB2328);background:#fdecea;color:var(--pmmg-vermelho,#AB2328)}

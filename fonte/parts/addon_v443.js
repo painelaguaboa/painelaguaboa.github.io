@@ -89,17 +89,10 @@ function passar(){
     ordenar(tb);
   })});
 }
-/* REDS — aviso único: em dia (até 1 dia), uma linha em "Hoje e alertas"; com atraso maior, só a faixa de aviso */
+/* v4.4.4 — REDS só na faixa em destaque (#aviso-reds-ate, sempre visível); nenhuma linha REDS em "Hoje e alertas" */
 function linhaReds(){
-  const ul=document.querySelector('#bloco-hoje .hoje-lista');if(!ul||typeof PA._textoRedsAte!=='function')return;
-  let r=null;try{r=PA._textoRedsAte()}catch(e){}
-  ul.querySelectorAll('li:not(.pa-reds)').forEach(x=>{const b=x.querySelector('b');if(b&&/^REDS:/.test(b.textContent.trim()))x.remove()});
-  let li=ul.querySelector('li.pa-reds');
-  if(r&&!r.atrasado){
-    if(!li){li=document.createElement('li');li.className='pa-reds';ul.appendChild(li)}
-    const tx=String(r.texto).replace(/^REDS /,'');
-    if(li.textContent!=='REDS: '+tx){const b=document.createElement('b');b.textContent='REDS: ';li.replaceChildren(b,document.createTextNode(tx))}
-  }else if(li)li.remove();
+  document.querySelectorAll('#bloco-hoje .hoje-lista li').forEach(x=>{const b=x.querySelector('b');if(x.classList.contains('pa-reds')||(b&&/^REDS:/.test(b.textContent.trim())))x.remove()});
+  if(typeof PA._faixaReds==='function'){try{PA._faixaReds()}catch(e){}}
 }
 PA.ordenarPorData=passar;
 let tm=null;
