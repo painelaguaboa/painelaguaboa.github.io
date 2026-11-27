@@ -26,12 +26,13 @@ Criada em 27/11/2026 (horário de Brasília), a pedido do Matheus: "Esse dashboa
      - `CONFERÊNCIA!A1:D400`
      - `METAS!A1:M30`
      - `REGISTROS!A1:G1000`
-     - `D_NATUREZAS_CV!A1:G200`
+     - `D_NATUREZAS_CV!A1:I200`
+     - `REGISTROS!Z1:Z1000` (coluna VIOLÊNCIA DOMÉSTICA, que o servidor não envia), salva como REGISTROS_VD
    - planilha de operações (ID OPERAÇÕES da CONFIG): aba do mês `A1:D1000`.
 2. Gravar os CSVs. Os nomes vão na mesma ordem dos intervalos lidos:
    ```
    cd /workspace/painel/v443/ferramentas
-   python3 salvar_csv.py <arquivo_REDS> /workspace/painel/conferencia/planilhas CARTAO CONFERENCIA METAS REGISTROS D_NATUREZAS_CV
+   python3 salvar_csv.py <arquivo_REDS> /workspace/painel/conferencia/planilhas CARTAO CONFERENCIA METAS REGISTROS D_NATUREZAS_CV REGISTROS_VD
    python3 salvar_csv.py <arquivo_OPS> /workspace/painel/conferencia/planilhas OPERACOES
    ```
 3. Rodar em segundo plano. A leitura nova do servidor leva de 30 a 60 s.
