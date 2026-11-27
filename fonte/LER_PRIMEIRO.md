@@ -1,5 +1,18 @@
 # Fonte editável do Painel Destacamento Água Boa (v4.4.4 oficial)
 
+## REGRAS DE CONFIABILIDADE (Matheus, 27/11/2026 — valem acima de tudo)
+1. **As planilhas são o backend e a única fonte da verdade.** O painel só lê e exibe. É proibido dado embutido ou cópia no HTML e proibido número calculado fora das tabelas sem rastreio. Todo número do painel vem de uma extração lançada nas planilhas pelas rotinas, com registro no LOG.
+2. **A leitura é por cabeçalho e ordenada por data**, nunca pela posição ou ordem das linhas.
+3. **Parâmetros ficam na aba CONFIG**, não no código. O inventário está em `AUDITORIA_HARDCODE_v445.md`.
+4. **Portão de publicação:** só publica no oficial se `ferramentas/conferir_painel.py` (planilhas × /exec × site) der **OK 100%**. O procedimento está em `Rotinas/CONFERENCIA_PAINEL.md`.
+5. A padronização para vários destacamentos está em `ARQUITETURA_BI.md`. Não se altera a estrutura das planilhas sem aprovação.
+
+- HTML **v4.4.5 (TESTE, 27/11/2026)** em https://painelaguaboa.github.io/teste-v445/ — não publicado no oficial.
+  - Calendário de operações: a previsão vem do Controle de Operações Diárias (`opdiarias`) nos dias que a R2 ainda não analisou, com o estado "Aguardando REDS" e sem cálculo no navegador; o cumprimento vem só da aba CARTÃO PROGRAMA x REDS; a data de hoje é a de Brasília (antes era UTC).
+  - METAS: realizado e projeção vêm da aba METAS. Antes, o navegador recalculava, e a CV dava 1 contra 0 na planilha.
+  - Sem dado embutido: saíram `PA_REDS_CONF_TESTE` e `PA_OPD_TESTE` do teste e a tabela fixa `PA_MIL_NPM`, porque o servidor envia `mil_npm`.
+  - Cache `pa_v445_` (teste `pa_v445t_`).
+
 Pasta no Drive: **Fonte**, dentro de “Painel Destacamento Água Boa – Projeto”.
 Cópia local de trabalho: `/workspace/painel/v434-teste/`.
 
