@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Monta a versão de teste ou a oficial v4.4.4 a partir do fonte v4.3.4 + parts."""
+"""Monta a versão de teste ou a oficial v4.4.5 a partir do fonte v4.3.4 + parts."""
 import json, re, os, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import patch_regras
@@ -24,8 +24,8 @@ def between(a, b):
     i = s.index(a); j = s.index(b, i) + len(b); return i, j
 
 # ---------- cabeçalho, versão, config única do Y15099, dados de teste ----------
-rep("<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>", "<title>Painel Água Boa — versão de teste v4.4.4 (26/11/2026)</title>")
-rep("<span style='margin:0 8px'>Painel v4.3.4</span>", "<span style='margin:0 8px'>Painel v4.4.4-teste</span>")
+rep("<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>", "<title>Painel Água Boa — versão de teste v4.4.5 (27/11/2026)</title>")
+rep("<span style='margin:0 8px'>Painel v4.3.4</span>", "<span style='margin:0 8px'>Painel v4.4.5-teste</span>")
 # v4.3.5-teste (18/11): pedido do Matheus – remover os cards de visitas tranquilizadoras da Carga horária e do Cartão programa
 import re as _re
 for _id in ('vis-escala','vis-cartao'):
@@ -35,7 +35,8 @@ for _id in ('vis-escala','vis-cartao'):
 geo = open(os.path.join(D, 'geo', 'geo_prural.json'), encoding='utf-8').read()
 opd = open(os.path.join(D, 'dados', 'opdiarias_2026-11.json'), encoding='utf-8').read()
 cfg = open(os.path.join(D, 'parts', 'config_head.js'), encoding='utf-8').read()
-rep("<base target=\"_top\">", "<script>\n" + cfg + "\nwindow.PA_GEO=" + geo + ";\nwindow.PA_OPD_TESTE=" + json.dumps(json.loads(opd), ensure_ascii=False, separators=(',', ':')) + ";\nwindow.PA_REDS_CONF_TESTE=" + json.dumps(json.load(open(os.path.join(D, 'dados', 'reds_conf_2026-11.json'), encoding='utf-8')), ensure_ascii=False, separators=(',', ':')) + ";\n</script>\n<base target=\"_top\">")
+# v4.4.5: regra do Matheus (27/11) — planilhas são a única fonte; nenhum dado de teste embutido (PA_OPD_TESTE e PA_REDS_CONF_TESTE removidos)
+rep("<base target=\"_top\">", "<script>\n" + cfg + "\nwindow.PA_GEO=" + geo + ";\n</script>\n<base target=\"_top\">")
 css = open(os.path.join(D, 'parts', 'addon.css'), encoding='utf-8').read()
 rep("\n</style>\n</head>", "\n" + css + "\n</style>\n</head>")
 
@@ -65,7 +66,7 @@ def secao(tit, cards):
     return "<section class='home-sec'>" + NL + "<h2>" + tit + "</h2>" + NL + "<div class='menu home-menu'>" + NL + "".join(cards) + "</div>" + NL + "</section>" + NL
 novo_inicio = (
 "<div id='inicio' class='home-padrao'>" + NL +
-"<div class='banner-teste' role='status'>" + NL + "<p><strong>Versão de teste v4.4.4</strong> — 26/11/2026 (horário de Brasília). Faixa do REDS conferido sempre em destaque (verde em dia, vermelha com atraso) e DSP sem divergência falsa.</p>" + NL + "</div>" + NL +
+"<div class='banner-teste' role='status'>" + NL + "<p><strong>Versão de teste v4.4.5</strong> — 27/11/2026 (horário de Brasília). Calendário de operações: previsão do Controle de Operações Diárias nos dias ainda sem análise, “Aguardando REDS” depois da última conferência e dia atual pelo horário de Brasília.</p>" + NL + "</div>" + NL +
 "<div id='menu'>" + NL +
 secao('Operacional', [
     card('operacoes','i-alvo','Operações','Lançadas no mês','m-ops'),
@@ -356,22 +357,50 @@ rep("""  box.classList.toggle('atrasado', !!info.atrasado);
   if(box.textContent!==tx) box.textContent=tx;""")
 rep("""  if(reds) item('REDS', reds.texto);""", """  /* v4.4.4: REDS só na faixa em destaque (#aviso-reds-ate), não em "Hoje e alertas" */""")
 rep("function faixaReds(){", "PA._textoRedsAte=textoRedsAte;PA._faixaReds=faixaReds;\nfunction faixaReds(){")
+# ---------- v4.4.5 (27/11/2026): calendário de operações ----------
+# Antes: a previsão vinha só da aba CARTÃO PROGRAMA x REDS (montada pela R2 um dia depois), então dias ainda sem análise
+# apareciam "sem previsão"; e o "hoje" era calculado em UTC (depois das 21h de Brasília o dia corrente já contava como passado).
+rep("""dash.calc('calendario',{inputs:['cp','ops'],fn:(cp,ops)=>{const hoje=new Date().toISOString().slice(0,10);const out=[];
+ for(let d=1;d<=PA.M.dias;d++){const data=PA.M.ym+'-'+String(d).padStart(2,'0');const prev=cp.filter(c=>c.data===data&&c.op);const feitos=prev.filter(c=>c.reds);const lanc=ops.filter(o=>o.data===data&&!o.verificar);
+  let sit;if(data>hoje)sit='futuro';else if(data===hoje)sit='dia em andamento';else if(!prev.length)sit=lanc.length?'sem previsão (com registro)':'sem previsão';""",
+"""dash.calc('calendario',{inputs:['cp','ops','reds_reg'],fn:(cp,ops,reg)=>{const hoje=new Date(Date.now()-3*3600e3).toISOString().slice(0,10);const out=[];
+ const OPD=(()=>{const r=PA.raw&&PA.raw.opdiarias;if(r&&r.ok&&Array.isArray(r.dias))return r.dias;const t=window.PA_OPD_TESTE;return t&&t.ym===PA.M.ym&&Array.isArray(t.dias)?t.dias:[]})();
+ const cpMax=d3.max(cp.filter(c=>c.op),c=>c.data)||'';
+ for(let d=1;d<=PA.M.dias;d++){const data=PA.M.ym+'-'+String(d).padStart(2,'0');let prev=cp.filter(c=>c.data===data&&c.op);let fonte='cp';
+  if(!prev.length&&data>cpMax){const od=OPD.find(x=>x.data===data);if(od&&od.itens&&od.itens.length){fonte='opd';prev=od.itens.map(it=>({data,op:it.nome,cod:String(it.codigo||'').trim().toUpperCase(),reds:''}))}}
+  const feitos=prev.filter(c=>c.reds);const lanc=ops.filter(o=>o.data===data&&!o.verificar);
+  let sit;if(data>hoje)sit='futuro';else if(data===hoje)sit='dia em andamento';else if(fonte==='opd')sit='aguardando REDS';else if(!prev.length)sit=lanc.length?'sem previsão (com registro)':'sem previsão';""")
+rep("""  out.push({id:d,dia:d,data,prev:prev.map(c=>c.op+' ('+c.cod+')'+(c.reds?' ✓':' ✗')),""", """  out.push({id:d,dia:d,data,fonte,prev:prev.map(c=>c.op+' ('+c.cod+')'+(fonte==='opd'?'':(c.reds?' ✓':' ✗'))),""")
+rep("""'sem previsão (com registro)':'color-mix(in srgb, var(--cds-chart-muted) 35%, transparent)'};""",
+    """'sem previsão (com registro)':'color-mix(in srgb, var(--cds-chart-muted) 35%, transparent)','aguardando REDS':'transparent'};""")
+rep("""if(r.sit==='futuro'||r.sit==='dia em andamento')c.style.border""", """if(r.sit==='futuro'||r.sit==='dia em andamento'||r.sit==='aguardando REDS')c.style.border""", 2)
+rep("""<span style='--sw:color-mix(in srgb, var(--cds-chart-muted) 35%, transparent)'>Sem previsão</span></div>""",
+    """<span style='--sw:color-mix(in srgb, var(--cds-chart-muted) 35%, transparent)'>Sem previsão</span><span style='--sw:transparent'>Aguardando REDS (tracejado: dia em andamento, futuro ou REDS ainda não conferido)</span></div>""")
+# v4.4.5 — METAS: realizado e projeção vêm da aba METAS da planilha REDS (R2) quando houver; o cálculo no navegador fica só como reserva
+rep("""  const MP=new Map(mplan.map(o=>[String(o['SIGLA']||'').trim().toUpperCase(),numBR(o['META'])]));""",
+"""  const MP=new Map(mplan.map(o=>[String(o['SIGLA']||'').trim().toUpperCase(),numBR(o['META'])]));
+  const MR=new Map(mplan.map(o=>{const ks=Object.keys(o);const g=re=>{const c=ks.find(x=>re.test(String(x).toUpperCase()));return c!=null&&String(o[c]).trim()!==''?numBR(o[c]):null};return [String(o['SIGLA']||'').trim().toUpperCase(),{real:g(/^REALIZADO/),proj:g(/^PROJE/)}]}));""")
+rep("""    const falta=Math.max(0,(meta||0)-real);const pct=meta?real/meta:null;const proj=it.devidas?null:Math.round(real/dr*PA.M.dias*10)/10;""",
+"""    const LP=MR.get(it.sigla);if(LP&&LP.real!=null){real=LP.real;origem='Aba METAS da planilha REDS (R2)'}
+    const falta=Math.max(0,(meta||0)-real);const pct=meta?real/meta:null;const proj=it.devidas?null:(LP&&LP.proj!=null?LP.proj:Math.round(real/dr*PA.M.dias*10)/10);""")
 # cache local separado do oficial
-rep("const CK='pa_v434_dados_'", "const CK='pa_v444t_dados_'")
-s = s.replace("/^pa_v434_dados_/", "/^pa_v444t_dados_/")
+rep("const CK='pa_v434_dados_'", "const CK='pa_v445t_dados_'")
+s = s.replace("/^pa_v434_dados_/", "/^pa_v445t_dados_/")
 
 OUT = D
 if os.environ.get('OFICIAL') == '1':
-    # ---------- build OFICIAL v4.4.4 (sem marcas de teste, sem dados estáticos) ----------
+    # ---------- build OFICIAL v4.4.5 (sem marcas de teste, sem dados estáticos) ----------
     import re as _r
     OUT = os.path.join(D, 'oficial'); os.makedirs(OUT, exist_ok=True)
-    s = s.replace("<title>Painel Água Boa — versão de teste v4.4.4 (26/11/2026)</title>", "<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>")
-    s = s.replace("Painel v4.4.4-teste", "Painel v4.4.4")
+    s = s.replace("<title>Painel Água Boa — versão de teste v4.4.5 (27/11/2026)</title>", "<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>")
+    s = s.replace("Painel v4.4.5-teste", "Painel v4.4.5")
     s, k1 = _r.subn(r"<div class='banner-teste' role='status'>.*?</div>\n", "", s, count=1, flags=_r.S)
-    s, k2 = _r.subn(r"\nwindow\.PA_OPD_TESTE=.*?;\n</script>", "\n</script>", s, count=1, flags=_r.S)
-    s = s.replace("pa_v444t_dados_", "pa_v444_dados_")
-    s = s.replace("CONFIGURAÇÃO ÚNICA DA VERSÃO DE TESTE v4.3.5", "CONFIGURAÇÃO ÚNICA v4.4.4")
+    k2 = 1  # v4.4.5: não há mais dado de teste embutido para remover
+    s = s.replace("pa_v445t_dados_", "pa_v445_dados_")
+    s = s.replace("CONFIGURAÇÃO ÚNICA DA VERSÃO DE TESTE v4.3.5", "CONFIGURAÇÃO ÚNICA v4.4.5")
     assert k1 == 1 and k2 == 1, (k1, k2)
+# v4.4.5: caminhos mortos de dado embutido viram 'undefined' (nenhuma variável de teste existe mais)
+s = s.replace('window.PA_OPD_TESTE', 'undefined').replace('window.PA_REDS_CONF_TESTE', 'undefined')
 open(os.path.join(OUT, 'src.html'), 'w', encoding='utf-8').write(s)
 print('src ok', len(s))
 subprocess.run([sys.executable, os.path.join(D, 'build.py'), os.path.join(OUT, 'src.html'), os.path.join(OUT, 'index.html')], check=True)

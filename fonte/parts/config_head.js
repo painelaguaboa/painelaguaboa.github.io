@@ -6,7 +6,7 @@
 window.PA_ROTULO_Y15099='Atividade rural';
 /* 2) Tabela fixa nome → Nº PM (referência principal = NOME do militar, coluna C / Equipe do formulário).
       O Nº PM digitado no CONTROLE (coluna Q, "Responsável por Preencher") não é usado para identificar o militar. */
-window.PA_MIL_NPM={TRINDADE:'1633114',FONTES:'1459825',DUARTE:'1753151',JUNIO:'1811124',IAGO:'1794585',QUEIROZ:'1810431',SOUZA:'1920172',VASCONCELOS:'1930577',EDUARDA:'1925072',MACEDO:'1928209',REIS:'1928266',OLIMAR:'1927680',ADAILTON:'1502574',AMARAL:'1829365'};
+window.PA_MIL_NPM={}; /* v4.4.5: sem tabela fixa — o Nº PM vem do servidor (raw.mil_npm, lido da planilha) */
 window.PA_MIL_EX=['ADAILTON','AMARAL'];
 /* Normaliza os textos do raw: Y15099 nunca aparece como Patrulha Rural/PR. Só altera rótulos e textos de exibição. */
 window.PA_NORM_Y99=function(raw){
