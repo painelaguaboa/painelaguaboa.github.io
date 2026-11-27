@@ -1,4 +1,4 @@
-# Fonte editável do Painel Destacamento Água Boa (v4.4.5 oficial)
+# Fonte editável do Painel Destacamento Água Boa (v4.4.6 oficial)
 
 ## REGRAS DE CONFIABILIDADE (Matheus, 27/11/2026 — valem acima de tudo)
 1. **As planilhas são o backend e a única fonte da verdade.** O painel só lê e exibe. É proibido dado embutido ou cópia no HTML e proibido número calculado fora das tabelas sem rastreio. Todo número do painel vem de uma extração lançada nas planilhas pelas rotinas, com registro no LOG.
@@ -8,7 +8,12 @@
 6. **Crime violento (CV) segue o rol taxativo da DIAO/GDO** (Instrução 8007.2/2023-CG). Conta-se pela aba `D_NATUREZAS_CV`, nunca pela coluna CATEGORIA: `R_CV_CLASSIFICACAO` e a linha `CV_CRIMES` da aba METAS. A sigla `CV` da aba METAS é a meta de visita A20001, outra coisa. A visita A20001 devida segue `D_NATUREZAS_CV.GERA_VISITA`, o CV do rol e a violência doméstica; o realizado é qualquer A20001 do mês. Detalhes em `Rotinas/R2_REGRA_VISITA_A20001.md`.
 5. A padronização para vários destacamentos está em `ARQUITETURA_BI.md`. Não se altera a estrutura das planilhas sem aprovação.
 
-- HTML **v4.4.5 OFICIAL**, publicada em 27/11/2026 às 00h35 (horário de Brasília) com aprovação do Matheus, depois da conferência automática OK 100% (136 verificações) no teste e no build oficial. O backup da v4.4.4 está em `backup/index_v444_antes_v445.html`.
+- HTML **v4.4.6 OFICIAL**, publicada em 27/11/2026 às 09h19 (horário de Brasília) na rotina diária das 9h, depois da conferência automática OK 100% (142 verificações) no teste (https://painelaguaboa.github.io/teste-v446/) e no oficial. Backup da v4.4.5 em `backup/index_v445_antes_v446.html`.
+  - Correção de leitura nas Visitas tranquilizadoras: quando a aba CRIMES E VISITAS indica duas visitas para o mesmo crime ("A20002 / U33004 / A20001"), cada código vira uma linha. A situação de cada linha vem do texto da coluna STATUS DA VISITA (ex.: "A20002 registrada; A20001 PENDENTE") e da coluna VISITA JÁ REGISTRADA NO REDS, lidas pelo nome. Antes, o crime aparecia como "Realizada" só porque a A20002 tinha REDS, e o card Crimes da home mostrava 6 visitas pendentes em vez de 9.
+  - Texto da tela Visitas atualizado para a regra de 27/11 (A20001 pela coluna GERA VISITA da D_NATUREZAS_CV).
+  - `conferir_painel.py` ganhou 2 verificações (Visitas servidor × site: 1 linha por código indicado e situação igual à coluna STATUS DA VISITA).
+  - Cache `pa_v446_` (teste `pa_v446t_`). Servidor sem mudança (`_v` 4.39).
+- HTML **v4.4.5** (oficial até 27/11/2026 às 09h19; substituída pela v4.4.6), publicada em 27/11/2026 às 00h35 (horário de Brasília) com aprovação do Matheus, depois da conferência automática OK 100% (136 verificações) no teste e no build oficial. O backup da v4.4.4 está em `backup/index_v444_antes_v445.html`.
   - Calendário de operações: a previsão vem do Controle de Operações Diárias (`opdiarias`) nos dias que a R2 ainda não analisou, com o estado "Aguardando REDS" e sem cálculo no navegador; o cumprimento vem só da aba CARTÃO PROGRAMA x REDS; a data de hoje é a de Brasília (antes era UTC).
   - METAS: realizado e projeção vêm da aba METAS. Antes, o navegador recalculava, e a CV dava 1 contra 0 na planilha.
   - Sem dado embutido: saíram `PA_REDS_CONF_TESTE` e `PA_OPD_TESTE` do teste e a tabela fixa `PA_MIL_NPM`, porque o servidor envia `mil_npm`.

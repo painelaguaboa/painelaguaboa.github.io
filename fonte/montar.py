@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Monta a versão de teste ou a oficial v4.4.5 a partir do fonte v4.3.4 + parts."""
+"""Monta a versão de teste ou a oficial v4.4.6 a partir do fonte v4.3.4 + parts."""
 import json, re, os, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import patch_regras
@@ -24,8 +24,8 @@ def between(a, b):
     i = s.index(a); j = s.index(b, i) + len(b); return i, j
 
 # ---------- cabeçalho, versão, config única do Y15099, dados de teste ----------
-rep("<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>", "<title>Painel Água Boa — versão de teste v4.4.5 (27/11/2026)</title>")
-rep("<span style='margin:0 8px'>Painel v4.3.4</span>", "<span style='margin:0 8px'>Painel v4.4.5-teste</span>")
+rep("<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>", "<title>Painel Água Boa — versão de teste v4.4.6 (27/11/2026)</title>")
+rep("<span style='margin:0 8px'>Painel v4.3.4</span>", "<span style='margin:0 8px'>Painel v4.4.6-teste</span>")
 # v4.3.5-teste (18/11): pedido do Matheus – remover os cards de visitas tranquilizadoras da Carga horária e do Cartão programa
 import re as _re
 for _id in ('vis-escala','vis-cartao'):
@@ -66,7 +66,7 @@ def secao(tit, cards):
     return "<section class='home-sec'>" + NL + "<h2>" + tit + "</h2>" + NL + "<div class='menu home-menu'>" + NL + "".join(cards) + "</div>" + NL + "</section>" + NL
 novo_inicio = (
 "<div id='inicio' class='home-padrao'>" + NL +
-"<div class='banner-teste' role='status'>" + NL + "<p><strong>Versão de teste v4.4.5</strong> — 27/11/2026 (horário de Brasília). Calendário de operações: previsão do Controle de Operações Diárias nos dias ainda sem análise, “Aguardando REDS” depois da última conferência e dia atual pelo horário de Brasília.</p>" + NL + "</div>" + NL +
+"<div class='banner-teste' role='status'>" + NL + "<p><strong>Versão de teste v4.4.6</strong> — 27/11/2026 (horário de Brasília). Visitas tranquilizadoras: quando o crime pede A20001 e A20002, cada visita aparece em sua linha, com a situação lida da planilha.</p>" + NL + "</div>" + NL +
 "<div id='menu'>" + NL +
 secao('Operacional', [
     card('operacoes','i-alvo','Operações','Lançadas no mês','m-ops'),
@@ -383,21 +383,40 @@ rep("""  const MP=new Map(mplan.map(o=>[String(o['SIGLA']||'').trim().toUpperCas
 rep("""    const falta=Math.max(0,(meta||0)-real);const pct=meta?real/meta:null;const proj=it.devidas?null:Math.round(real/dr*PA.M.dias*10)/10;""",
 """    const LP=MR.get(it.sigla);if(LP&&LP.real!=null){real=LP.real;origem='Aba METAS da planilha REDS (R2)'}
     const falta=Math.max(0,(meta||0)-real);const pct=meta?real/meta:null;const proj=it.devidas?null:(LP&&LP.proj!=null?LP.proj:Math.round(real/dr*PA.M.dias*10)/10);""")
+# ---------- v4.4.6 (27/11/2026): visitas A20001 e A20002 em linhas separadas ----------
+# Causa: a aba CRIMES E VISITAS indica 2 visitas no mesmo crime ("A20002 / U33004 / A20001") e o painel tratava o crime
+# como 1 visita só: se a A20002 já tinha REDS, mostrava "Realizada" mesmo com a A20001 PENDENTE na coluna STATUS DA VISITA.
+# Agora cada código indicado vira 1 linha, e a situação de cada uma vem do texto da própria planilha (colunas
+# STATUS DA VISITA e VISITA JÁ REGISTRADA NO REDS, lidas pelo nome). Nenhum número novo é calculado.
+rep("""  return cr.filter(c=>/A20028|A20001|U33004|A20002/i.test(c.visita)).map(c=>{const dias=c.data?Math.max(0,Math.round((new Date(hoje+'T12:00:00')-new Date(c.data+'T12:00:00'))/ms)):null;const feita=!!String(c.visita_reds||'').trim();const fora=c.municipio!==METAS.municipio;""",
+"""  return cr.filter(c=>/A20028|A20001|U33004|A20002/i.test(c.visita)).flatMap(c=>{const dias=c.data?Math.max(0,Math.round((new Date(hoje+'T12:00:00')-new Date(c.data+'T12:00:00'))/ms)):null;const fora=c.municipio!==METAS.municipio;
+    const vis=String(c.visita||'').toUpperCase();const cods=[...new Set((vis.match(/A20028|A20001|A20002|U33004/g)||[]).map(x=>x==='U33004'?'A20002':x))];
+    const st=String(c.status||'');const vr=String(c.visita_reds||'').trim();
+    return cods.map(cod=>{let feita;
+    if(new RegExp(cod+'[^;|]*registrad','i').test(st))feita=true;else if(new RegExp(cod+'[^;|]*PENDENTE','i').test(st))feita=false;else if(cods.length===1)feita=!!vr;else feita=vr.includes(cod);
+    const vreds=feita?((cods.length>1&&vr.split(/[;|]/).filter(x=>x.includes(cod)).join('; '))||vr):'';
+    const codigo=cod==='A20002'&&/U33004/.test(vis)?'A20002 / U33004':cod;""")
+rep("""    const situacao=feita?'Realizada ('+c.visita_reds+')':fora?'Fora de Água Boa – não conta':!prazo?'Pendente':vencida?'Vencida':'No prazo';
+    return {id:c.reds,reds:c.reds,codigo:c.visita,natureza:c.natureza,data:c.data,bairro:c.bairro,endereco:c.endereco,dias,prazo,vencida,feita,fora,sugeridos,situacao}}).sort(""",
+"""    const situacao=feita?'Realizada'+(vreds?' ('+vreds+')':''):fora?'Fora de Água Boa – não conta':!prazo?'Pendente':vencida?'Vencida':'No prazo';
+    return {id:c.reds+'|'+cod,reds:c.reds,codigo,natureza:c.natureza,data:c.data,bairro:c.bairro,endereco:c.endereco,dias,prazo,vencida,feita,fora,sugeridos,situacao}})}).sort(""")
+rep("""A20001: crime violento com vítima não fatal. U33004/A20002: visita a vítima de violência doméstica (recomendada, fora da meta da P3). Cada crime gera 1 visita.""",
+"""A20001: devida conforme a coluna GERA VISITA da aba D_NATUREZAS_CV (crime violento do rol, violência doméstica, lesão corporal e crimes que podem evoluir para crime violento). U33004/A20002: visita a vítima de violência doméstica (fora da meta da P3). Quando o crime pede as duas visitas, cada uma aparece em sua linha, com a situação própria lida da planilha.""")
 # cache local separado do oficial
-rep("const CK='pa_v434_dados_'", "const CK='pa_v445t_dados_'")
-s = s.replace("/^pa_v434_dados_/", "/^pa_v445t_dados_/")
+rep("const CK='pa_v434_dados_'", "const CK='pa_v446t_dados_'")
+s = s.replace("/^pa_v434_dados_/", "/^pa_v446t_dados_/")
 
 OUT = D
 if os.environ.get('OFICIAL') == '1':
     # ---------- build OFICIAL v4.4.5 (sem marcas de teste, sem dados estáticos) ----------
     import re as _r
     OUT = os.path.join(D, 'oficial'); os.makedirs(OUT, exist_ok=True)
-    s = s.replace("<title>Painel Água Boa — versão de teste v4.4.5 (27/11/2026)</title>", "<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>")
-    s = s.replace("Painel v4.4.5-teste", "Painel v4.4.5")
+    s = s.replace("<title>Painel Água Boa — versão de teste v4.4.6 (27/11/2026)</title>", "<title>Painel de Controle — Destacamento de Água Boa — PMMG</title>")
+    s = s.replace("Painel v4.4.6-teste", "Painel v4.4.6")
     s, k1 = _r.subn(r"<div class='banner-teste' role='status'>.*?</div>\n", "", s, count=1, flags=_r.S)
     k2 = 1  # v4.4.5: não há mais dado de teste embutido para remover
-    s = s.replace("pa_v445t_dados_", "pa_v445_dados_")
-    s = s.replace("CONFIGURAÇÃO ÚNICA DA VERSÃO DE TESTE v4.3.5", "CONFIGURAÇÃO ÚNICA v4.4.5")
+    s = s.replace("pa_v446t_dados_", "pa_v446_dados_")
+    s = s.replace("CONFIGURAÇÃO ÚNICA DA VERSÃO DE TESTE v4.3.5", "CONFIGURAÇÃO ÚNICA v4.4.6")
     assert k1 == 1 and k2 == 1, (k1, k2)
 # v4.4.5: caminhos mortos de dado embutido viram 'undefined' (nenhuma variável de teste existe mais)
 s = s.replace('window.PA_OPD_TESTE', 'undefined').replace('window.PA_REDS_CONF_TESTE', 'undefined')

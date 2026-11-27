@@ -17,6 +17,7 @@ Criada em 27/11/2026 (horário de Brasília), a pedido do Matheus: "Esse dashboa
 | Operações | linhas da aba do mês: planilha × servidor × site |
 | METAS | META e REALIZADO: planilha × servidor × site |
 | CV (rol taxativo) | CV de Água Boa recalculado com REGISTROS × D_NATUREZAS_CV × linha CV_CRIMES da aba METAS (total e lista de REDS); CATEGORIA "crime violento" fora do rol; natureza do rol sem código na dimensão; visita A20001 indicada para crime fora do rol |
+| Visitas (v4.4.6) | aba CRIMES E VISITAS (servidor) × tela Visitas do site: 1 linha por código indicado (A20028, A20001, A20002/U33004) e situação igual à coluna STATUS DA VISITA |
 | Site | sem erro de JavaScript, sem cópia de dados embutida, total de REDS, REDS de Água Boa, faixa REDS visível com a data certa |
 
 ## Rotina diária (8h45, depois da R1)

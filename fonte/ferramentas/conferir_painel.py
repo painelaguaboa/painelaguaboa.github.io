@@ -53,8 +53,9 @@ JS_SITE = r"""async()=>{const g=n=>{try{const d=dash.data(n);return d&&d.status=
  const reg=(g('reds_reg')||[]).map(r=>({reds:r.reds,data:r.data,mun:r.municipio,codigo:r.codigo}));
  const ops=(g('ops')||[]).map(o=>({data:o.data,verificar:!!o.verificar}));
  const metas=(g('metas')||[]).map(m=>({sigla:m.sigla,real:m.real,meta:m.meta,proj:m.proj}));
+ const vis=(g('visitas')||[]).map(v=>({reds:v.reds,codigo:v.codigo,feita:!!v.feita,fora:!!v.fora}));
  const fx=document.getElementById('aviso-reds-ate');
- return {versao:(document.querySelector('.rodape')||{}).innerText||'',cal,reg,ops,metas,faixa:fx?{txt:fx.textContent,atrasado:fx.classList.contains('atrasado'),visivel:fx.getClientRects().length>0}:null,
+ return {versao:(document.querySelector('.rodape')||{}).innerText||'',cal,reg,ops,metas,vis,faixa:fx?{txt:fx.textContent,atrasado:fx.classList.contains('atrasado'),visivel:fx.getClientRects().length>0}:null,
    embutido:{opd:!!window.PA_OPD_TESTE,conf:!!window.PA_REDS_CONF_TESTE,npm_fixo:false}}}"""
 
 def ler_site(url):
@@ -189,6 +190,22 @@ def main():
             for c in S['cal']:
                 d = c['data']
                 if d in cpd: R.ok('Calendário (servidor x site)', d, '%d/%d' % (cpd[d][1], cpd[d][0]), '%d/%d' % (c['nf'], c['np']))
+            # v4.4.6 (27/11/2026): cada visita indicada (A20028, A20001, A20002/U33004) tem a sua linha no site, com a situação
+            # da coluna STATUS DA VISITA da aba CRIMES E VISITAS ("A20002 registrada; A20001 PENDENTE"), lida pelo nome da coluna.
+            esp = {}
+            for c in tab(raw.get('reds_crimes') or []):
+                vis = norm(col(c, 'VISITA INDICADA (COD'))
+                cods = sorted({('A20002' if x == 'U33004' else x) for x in re.findall(r'A20028|A20001|A20002|U33004', vis)})
+                st = col(c, 'STATUS DA VISITA'); vr = str(col(c, 'VISITA JA REGISTRADA', 'VISITA JÁ REGISTRADA') or '').strip()
+                for cod in cods:
+                    if re.search(cod + r'[^;|]*registrad', st, re.I): f = True
+                    elif re.search(cod + r'[^;|]*PENDENTE', st, re.I): f = False
+                    elif len(cods) == 1: f = bool(vr)
+                    else: f = cod in vr
+                    esp[(c.get('Nº REDS', ''), cod)] = f
+            obt = {(v['reds'], 'A20002' if 'A20002' in str(v['codigo']) else str(v['codigo'])): v['feita'] for v in S.get('vis') or []}
+            R.ok('Visitas (servidor x site)', 'linhas de visita (1 por código indicado)', len(esp), len(obt))
+            R.ok('Visitas (servidor x site)', 'visitas com situação diferente da coluna STATUS DA VISITA', '[]', json.dumps(sorted('%s %s' % k for k in esp if obt.get(k) != esp[k])))
             sm2 = {r.get('SIGLA', ''): col(r, 'REALIZADO') for r in metas}
             for m in S['metas']:
                 v = sm2.get(m['sigla'])
