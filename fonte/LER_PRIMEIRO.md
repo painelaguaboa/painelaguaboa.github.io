@@ -1,4 +1,4 @@
-# Fonte editável do Painel Destacamento Água Boa (v4.4.2 oficial)
+# Fonte editável do Painel Destacamento Água Boa (v4.4.3 oficial)
 
 Pasta no Drive: **Fonte**, dentro de “Painel Destacamento Água Boa – Projeto”.
 Cópia local de trabalho: `/workspace/painel/v434-teste/`.
@@ -6,17 +6,19 @@ Cópia local de trabalho: `/workspace/painel/v434-teste/`.
 ## O que tem aqui
 
 - `base/src.html` — fonte da v4.3.4, ponto de partida do `montar.py`.
-- `parts/` — `config_head.js`, `addon.css`, `addon.js` (v4.3.5), `addon_v436.js`, `addon_v436_fix.js` `addon_v437.js`, `addon_v438.js`, `addon_v440.js`, `addon_v441.js` e `addon_v442.js` (entram no teste e no oficial).
+- `parts/` — `config_head.js`, `addon.css`, `addon.js` (v4.3.5), `addon_v436.js`, `addon_v436_fix.js` `addon_v437.js`, `addon_v438.js`, `addon_v440.js`, `addon_v441.js`, `addon_v442.js` e `addon_v443.js` (entram no teste e no oficial; o `addon_v441.js` fica só como histórico, pois o v442 já contém o conteúdo dele).
 - `patch_regras.py` — regras de carga horária, CPR, horários.
 - `montar.py` — aplica os patches, injeta CSS/JS/geo e gera `src.html`.
 - `build.py` — embute fontes e escudo e minifica, gerando `index.html`.
 - `ferramentas/` — `minify.js`, `logotipo.svg`, `escudo.webp`, `r400.woff2`, `r700.woff2`.
 - `geo/geo_prural.json` e `dados/opdiarias_2026-11.json` — usados na versão de teste.
+- `Code_v439.gs` e `IMPLANTACAO_V439.md` — servidor v4.3.9 (aba CONFERÊNCIA do REDS em `reds_conf` e escala `A1:AG60`). **Pronto, mas NÃO implantado**; em produção continua o v4.3.8.
 - `Code_v435.gs` — servidor anterior (v4.3.5), só histórico.
 - `Code_v436.gs` e `IMPLANTACAO_V436.md` — servidor em produção (v4.3.6), implantado em 19/11/2026 como versão 12 da mesma URL `/exec`. O gatilho `instalarGatilho` **não** foi instalado (o Google recusou o escopo `script.scriptapp` por haver várias contas logadas). O aquecimento do cache continua a cargo do GitHub Action a cada 5 min; não alterar `.github/workflows/aquecer-cache.yml` enquanto o gatilho não for instalado.
 - `Code_v437.gs` e `IMPLANTACAO_V437.md` — servidor v4.3.7 (card Informações de Militares). `_v` 4.37, cache `pa_v437_`. Lê CREDENCIAMENTO DE VIATURA sem a coluna CNH e junta com o mapa carga. O gatilho `instalarGatilho` continua pendente; não alterar o aquecimento do GitHub.
 - `parts/addon_v437.js` — tela Informações de Militares (v4.3.8: card de navegação na home com resumo; tabela completa numa aba própria, com fichas no celular).
 
+- HTML v4.4.3 (26/11/2026, horário de Brasília) — **oficial** desde 26/11/2026 (aprovado pelo Matheus); teste em https://painelaguaboa.github.io/teste-v443/; cópia de segurança do anterior em backup/index_v442_antes_v443.html. Só no teste: cópia da aba CONFERÊNCIA em `dados/reds_conf_2026-11.json` (`window.PA_REDS_CONF_TESTE`), usada enquanto o servidor não envia `reds_conf`; o build OFICIAL não a inclui. Correções: (N1) no card Registros, tocar em RAT/BO/BOS/TCO abre a lista; (N2/N3) na tela Crimes, tocar num grupo abre a seção “Lista de BOs” já com os BOs do grupo e rola até ela, e o botão Lista de BOs redesenha a lista ao abrir; (N4) “Só divergentes” saiu da tabela do Cartão programa que já só mostra divergências (fica só em “todos”); (N5) “Mostrar tratadas” fica oculto até existir tratamento na planilha; (N6) grupo sem crime (ex.: Armas) abre a lista com o aviso “Nenhum crime…”; (N7) Viaturas e KM e Abastecimento continuam abrindo a mesma tela de propósito (carta situacional no topo). Novo: ordem por data em todas as tabelas com data (fora da escala, conferência do abastecimento, km, operações, resultados, apreensões, cartão programa, calendário, divergências de operações), padrão **mais recentes primeiro**, com botão para inverter guardado no aparelho (`localStorage` `pa_ordem_v1`). DSP (Diligência de Segurança Pública) tratada como **serviço**: aparece em “Serviço de hoje” e conta no efetivo, não é afastamento e não reduz o limite; a carga diária vem de `window.PA_DSP_HORAS_DIA` em `config_head.js` (hoje `null` = carga a definir: previsto 0 h, contam só as horas registradas; com valor, segue a regra geral de +30 min de pré-turno). “Outras situações” aparece no card Escala da home quando houver. REDS: a data vem da aba CONFERÊNCIA (Code_v439) com volta para a data do último REDS; aviso único — em dia, uma linha em “Hoje e alertas”; faixa só com atraso maior que 1 dia. Cache do HTML `pa_v443_` (teste `pa_v443t_`). O Code.gs em produção continua v4.3.8.
 - HTML v4.4.2 (19/11/2026, horário de Brasília) — a janela do detalhe do REDS passa a ter altura máxima de cerca de 85vh (com dvh/svh e fallback para vh), cabeçalho com X Fechar sempre visível, só o corpo rola, Fechar também no rodapé, e a rolagem da página fica travada enquanto a janela está aberta; fecha com X, toque fora, Esc ou voltar do celular, e a lista volta à posição anterior. No card **Registros**, o TCO é um subconjunto: entram os REDS cujo campo TIPO DE PRISÃO contém TCO (ex.: TCO/FLAGRANTE DE INFRAÇÃO DE MENOR POTENCIAL OFENSIVO); o mesmo REDS continua no BO e não soma em dobro no total (neste recorte, TCO = 2, ambos BO policial: 2026-051565389-001 e 2026-053179169-001). Na tela Crimes, “Crimes por natureza” e “Crimes por bairro” viram subcards ao lado dos grupos: ao tocar, abre o gráfico numa tela própria e o Voltar retorna para Crimes; os gráficos não ficam mais soltos na rolagem junto da lista de BOs. Os gráficos não contam atendimentos U33004 nem nenhum código U*; os rótulos usam o nome curto da natureza, com o texto acima da barra no celular, sem corte à esquerda; há padding com `env(safe-area-inset-bottom)` para não ficar atrás da barra do Safari. A lista de BOs fica numa seção própria no fim da tela, recolhível. A chave de cache do HTML é `pa_v442_` (teste: `pa_v442t_` e pasta `teste-v442/`). O Code.gs permanece o v4.3.8 (`_v` 4.38, cache `pa_v438_`); não é necessário republicar o servidor nesta versão.
 
 - HTML v4.4.1 (19/11/2026, horário de Brasília) — a aba CRIMES E VISITAS passa a incluir tráfico (I04*, sem U33010), direção perigosa (E08034), desobediência e comunicação falsa (G01330–G01360), falsidade/clonagem (G01299, G01311) e ambientais (N3*, L30*). Card **Registros** na home, com total e separação RAT / BO / BOS / TCO (TCO = 0 neste recorte; o tipo não aparece na REGISTROS). O detalhe do REDS abre em janela sobreposta (painel que sobe no celular, modal no computador), com Fechar fixo; fecha com X, toque fora ou voltar, e a lista volta à posição anterior com o item destacado. A chave de cache do HTML é `pa_v441_` (teste: `pa_v441t_`). O Code.gs permanece o v4.3.8 (`_v` 4.38, cache `pa_v438_`); não é necessário republicar o servidor nesta versão.
@@ -35,6 +37,7 @@ Aprendizado de 19/11/2026 (horário de Brasília), no lançamento do 2026-053852
 - A busca pelos 9 bairros de Água Boa **não pega registros rurais** (fazendas, córregos, povoados e demais locais fora desses bairros).
 - Portanto, além da busca pela unidade responsável M0876, é preciso tentar também a busca por **unidade de área ou destino** (exemplo: 7ª Delegacia de Polícia Civil/Água Boa), para pegar REDS de outras unidades com fato no município.
 - REDS com município do fato em Água Boa entra nos totais da área, mesmo quando a unidade responsável é outra. Não entra na produtividade dos militares do Destacamento de Água Boa.
+- Desde 26/11/2026: toda consulta diária grava **uma linha na aba CONFERÊNCIA** da planilha REDS do mês, inclusive quando o resultado for zero. Instrução completa em `Rotinas/R1_CONFERENCIA_REDS.md`.
 
 ## Como gerar o index.html
 
@@ -56,7 +59,9 @@ Versão oficial (sem faixa de teste, sem dados estáticos de operações diária
 OFICIAL=1 python3 montar.py
 ```
 
-Saída: `oficial/src.html` e `oficial/index.html`. A oficial em produção é a v4.4.0 (https://painelaguaboa.github.io/). As pastas `teste-v436` a `teste-v439` no GitHub permanecem como cópia histórica; a versão de teste desta linha é `teste-v440`.
+Saída: `oficial/src.html` e `oficial/index.html`. A oficial em produção é a v4.4.3 (https://painelaguaboa.github.io/). As pastas `teste-v436` a `teste-v442` no GitHub permanecem como cópia histórica; a versão de teste desta linha é `teste-v443`.
+
+Requisito de build: esbuild 0.25 em `/tmp/esb/node_modules/esbuild` (`npm i --prefix /tmp/esb esbuild@0.25`); com ele o build reproduz byte a byte os arquivos publicados.
 
 Não edite o `index.html` minificado. Altere `base/src.html`, `parts/`, `patch_regras.py` ou o `montar.py` e rode de novo.
 
